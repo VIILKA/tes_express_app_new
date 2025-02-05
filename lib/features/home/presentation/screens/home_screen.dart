@@ -37,26 +37,26 @@ class _HomePageState extends State<HomePage> {
                     borderColor: AppTheme.black),
               ],
             ),
-            // SizedBox(
-            //   height: 20,
-            // ),
-            // CarStatusCard(),
-            // SizedBox(
-            //   height: 20,
-            // ),
-            // AvailableCar(
-            //   onButtonPressed: () {},
-            // ),
-            // SizedBox(
-            //   height: 20,
-            // ),
-            // CarStatusCard(),
-            // SizedBox(
-            //   height: 20,
-            // ),
-            // AvailableCar(
-            //   onButtonPressed: () {},
-            // )
+            SizedBox(
+              height: 20,
+            ),
+            CarStatusCard(),
+            SizedBox(
+              height: 20,
+            ),
+            AvailableCar(
+              onButtonPressed: () {},
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            CarStatusCard(),
+            SizedBox(
+              height: 20,
+            ),
+            AvailableCar(
+              onButtonPressed: () {},
+            )
           ],
         ),
       ),
