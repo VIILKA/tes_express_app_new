@@ -38,14 +38,14 @@ class BlueButton extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Text(
                       text,
-                      style: AppTheme.bodyMedium500.copyWith(
+                      style: AppTheme.buttonText.copyWith(
                         color: AppTheme.whiteGrey,
                       ),
                     ),
                   )
                 : Text(
                     text,
-                    style: AppTheme.bodyMedium500.copyWith(
+                    style: AppTheme.buttonText.copyWith(
                       color: AppTheme.whiteGrey,
                     ),
                   ),

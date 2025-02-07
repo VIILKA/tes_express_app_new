@@ -30,7 +30,7 @@ class CarStatusCard extends StatelessWidget {
           // Подзаголовок
           const Text(
             'Сейчас мы едем до вашего пункта назначения, готовьтесь получать Ваш автомобиль',
-            style: AppTheme.bodyLarge,
+            style: AppTheme.bodySmall,
           ),
           const SizedBox(height: 10),
           // Информация о пути

@@ -1,6 +1,6 @@
 // feature/auth/presentation/bloc/auth_bloc.dart
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tes_test_app/features/auth/domain/repositories/auth_repository.dart';
 
 part 'auth_event.dart';

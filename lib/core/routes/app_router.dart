@@ -1,7 +1,7 @@
-// app_router.dart
-
-import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:tes_test_app/core/routes/main_page.dart';
 import 'package:tes_test_app/features/auth/presentation/blocs/auth_bloc.dart';
 import 'package:tes_test_app/features/auth/presentation/screens/login_page.dart';
@@ -15,63 +15,149 @@ import 'package:tes_test_app/features/profile/presentation/screens/profile_scree
 class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: '/login',
-    // важный момент: чтобы go_router обновлялся при изменении AuthBloc,
-    // можно подписать его на изменение состояния (через refreshListenable).
-    // Для демонстрации логики пока оставим как есть.
     routes: [
+      // ---------- Экран Login с анимацией ----------
       GoRoute(
         path: '/login',
-        builder: (context, state) => const LoginPage(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const LoginPage(),
+            transitionDuration: const Duration(milliseconds: 100),
+            reverseTransitionDuration: const Duration(milliseconds: 100),
+            transitionsBuilder: _fadeTransition, // Или любую другую анимацию
+          );
+        },
       ),
+
+      // ---------- Экран Register с анимацией ----------
       GoRoute(
         path: '/register',
-        builder: (context, state) => const RegistrationPage(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const RegistrationPage(),
+            transitionDuration: const Duration(milliseconds: 100),
+            reverseTransitionDuration: const Duration(milliseconds: 100),
+            transitionsBuilder: _fadeTransition,
+          );
+        },
       ),
-      // Пример ShellRoute c MainPage:
+
+      // ---------- ShellRoute с анимацией ----------
+      // Вариант: анимируется сам shell. Т.е. при переходах между /home, /market и т.д.
+      // будет тоже применяться анимация.
+      // Если хотите анимацию только внутри этих вложенных GoRoute —
+      // можно убрать pageBuilder из ShellRoute и перенести в каждый GoRoute.
       ShellRoute(
-        builder: (context, state, child) => MainPage(child: child),
+        pageBuilder: (context, state, child) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: MainPage(child: child),
+            transitionDuration: const Duration(milliseconds: 100),
+            reverseTransitionDuration: const Duration(milliseconds: 100),
+            // Пример анимации — слайд слева направо. Можно заменить на fade.
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              final begin = const Offset(1.0, 0.0);
+              final end = Offset.zero;
+              final curve = Curves.easeInOut;
+
+              final tween = Tween(begin: begin, end: end).chain(
+                CurveTween(curve: curve),
+              );
+
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            },
+          );
+        },
         routes: [
           GoRoute(
             path: '/home',
-            builder: (context, state) => const HomePage(),
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                key: state.pageKey,
+                child: const HomePage(),
+                transitionDuration: const Duration(milliseconds: 100),
+                reverseTransitionDuration: const Duration(milliseconds: 100),
+                transitionsBuilder: _fadeTransition,
+              );
+            },
           ),
           GoRoute(
             path: '/market',
-            builder: (context, state) => const MarketPage(),
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                key: state.pageKey,
+                child: const MarketPage(),
+                transitionDuration: const Duration(milliseconds: 100),
+                reverseTransitionDuration: const Duration(milliseconds: 100),
+                transitionsBuilder: _fadeTransition,
+              );
+            },
           ),
           GoRoute(
             path: '/news',
-            builder: (context, state) => const NewsPage(),
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                key: state.pageKey,
+                child: const NewsPage(),
+                transitionDuration: const Duration(milliseconds: 100),
+                reverseTransitionDuration: const Duration(milliseconds: 100),
+                transitionsBuilder: _fadeTransition,
+              );
+            },
           ),
           GoRoute(
             path: '/logistic',
-            builder: (context, state) => const LogisticPage(),
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                key: state.pageKey,
+                child: const LogisticPage(),
+                transitionDuration: const Duration(milliseconds: 100),
+                reverseTransitionDuration: const Duration(milliseconds: 100),
+                transitionsBuilder: _fadeTransition,
+              );
+            },
           ),
           GoRoute(
             path: '/profile',
-            builder: (context, state) => const ProfilePage(),
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                key: state.pageKey,
+                child: const ProfilePage(),
+                transitionDuration: const Duration(milliseconds: 100),
+                reverseTransitionDuration: const Duration(milliseconds: 100),
+                transitionsBuilder: _fadeTransition,
+              );
+            },
           ),
         ],
       ),
     ],
+
+    // ---------- Логика редиректа на основе AuthBloc ----------
     redirect: (context, state) {
-      // Достаём текущий AuthState
+      // Достаём текущий AuthState из AuthBloc
       final authState = context.read<AuthBloc>().state;
 
       final isLoggingIn = state.uri.toString() == '/login' ||
           state.uri.toString() == '/register';
 
-      // Если BLoC ещё грузится или в начальном состоянии — ничего не перенаправляем
+      // Если BLoC ещё грузится или в начальном состоянии — не перенаправляем
       if (authState is AuthInitial || authState is AuthLoading) {
         return null;
       }
 
-      // Если пользователь залогинен, а мы пытаемся на /login
+      // Если пользователь залогинен, а мы пытаемся на /login или /register
       if (authState is AuthLoggedIn && isLoggingIn) {
-        return '/home'; // перенаправляем на домашнюю страницу
+        return '/home';
       }
 
-      // Если пользователь не залогинен, а мы пытаемся попасть куда-то, кроме /login|/register
+      // Если пользователь не залогинен, а мы пытаемся попасть куда-то не на /login|/register
       if (authState is AuthLoggedOut && !isLoggingIn) {
         return '/login';
       }
@@ -80,4 +166,18 @@ class AppRouter {
       return null;
     },
   );
+
+  /// Пример функции анимации "Fade" (прозрачность).
+  /// Можно вынести в отдельный файл, если хочется использовать многократно.
+  static Widget _fadeTransition(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return FadeTransition(
+      opacity: animation,
+      child: child,
+    );
+  }
 }

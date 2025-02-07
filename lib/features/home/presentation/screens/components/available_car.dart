@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tes_test_app/core/styles/app_theme.dart';
 import 'package:tes_test_app/core/widgets/blue_button.dart';
 
 class AvailableCar extends StatelessWidget {
   final VoidCallback onButtonPressed;
 
-  const AvailableCar({Key? key, required this.onButtonPressed})
-      : super(key: key);
+  const AvailableCar({super.key, required this.onButtonPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +30,9 @@ class AvailableCar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Машины в наличии!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
+            Text('Машины в наличии!',
+                style:
+                    AppTheme.displayMedium.copyWith(color: AppTheme.whiteGrey)),
             const Text(
               'У нас в наличии большой выбор автомобилей\nв России, готовых к быстрой доставке!',
               style: TextStyle(
@@ -89,7 +84,7 @@ class InfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, color: Colors.white, size: 20.0),
+        Icon(icon, color: AppTheme.green, size: 20.0),
         const SizedBox(width: 8.0),
         Expanded(
           child: Text(
