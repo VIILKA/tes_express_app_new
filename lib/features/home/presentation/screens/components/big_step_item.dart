@@ -24,7 +24,7 @@ class BigStepItem extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           label,
-          style: AppTheme.bodySmall.copyWith(color: color),
+          style: AppTheme.bodyTiny.copyWith(color: color),
         ),
       ],
     );

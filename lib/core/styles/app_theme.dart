@@ -47,6 +47,12 @@ class AppTheme {
     fontWeight: FontWeight.w500,
   );
 
+  static const TextStyle bodyTiny = TextStyle(
+    letterSpacing: -0.1,
+    fontSize: 10,
+    fontWeight: FontWeight.w500,
+  );
+
   static const Color main = Color.fromRGBO(0, 123, 255, 1);
   static const Color orange = Color(0xffDEB236);
   static const Color grey = Color.fromRGBO(153, 162, 173, 0.88);

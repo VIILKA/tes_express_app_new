@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tes_test_app/core/styles/app_theme.dart';
-import 'package:tes_test_app/features/logistic/presentation/screens/components/car_details_card.dart';
+import 'package:tes_test_app/features/profile/presentation/screens/components/car_status_with_scale_bar.dart';
 import 'package:tes_test_app/features/profile/presentation/screens/components/custom_code.dart';
 import 'package:tes_test_app/features/profile/presentation/screens/components/history_card.dart';
 import 'package:tes_test_app/features/profile/presentation/screens/components/logistics_card.dart';
@@ -99,7 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
             ),
-            CarDetailsCard(
+            CarStatusWithScaleBar(
               title: 'Lixiang L7 Pro',
               vinCode: 'HLX781788912311840',
               imagePath:
@@ -113,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(
               height: 10,
             ),
-            CarDetailsCard(
+            CarStatusWithScaleBar(
               title: 'Lixiang L7 Pro',
               vinCode: 'HLX781788912311840',
               imagePath:
