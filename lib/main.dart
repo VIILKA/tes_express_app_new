@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tes_test_app/core/routes/app_router.dart';
 import 'package:tes_test_app/features/auth/data/data_sources/auth_local_datasource.dart';
 import 'package:tes_test_app/features/auth/data/repositories/auth_repository_impl.dart';
@@ -10,7 +11,10 @@ Future<void> main() async {
   final authLocalDataSource = AuthLocalDataSource();
   final authRepository = AuthRepositoryImpl(authLocalDataSource);
 
-  runApp(MainApp(authRepository: authRepository));
+  runApp(ScreenUtilInit(
+      designSize: Size(375, 812),
+      minTextAdapt: true,
+      child: MainApp(authRepository: authRepository)));
 }
 
 class MainApp extends StatelessWidget {

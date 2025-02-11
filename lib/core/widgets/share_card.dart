@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:tes_test_app/core/styles/app_theme.dart';
 import 'package:tes_test_app/core/widgets/blue_button.dart';
 
-class HistoryCard extends StatelessWidget {
+class ShareCard extends StatelessWidget {
   final String title;
   final String description;
   final VoidCallback onButtonPressed;
-
-  const HistoryCard({
-    Key? key,
-    required this.title,
-    required this.description,
-    required this.onButtonPressed,
-  }) : super(key: key);
+  const ShareCard(
+      {super.key,
+      required this.title,
+      required this.description,
+      required this.onButtonPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,7 @@ class HistoryCard extends StatelessWidget {
                 ),
                 Text(
                   description,
-                  style: AppTheme.bodyMedium.copyWith(
+                  style: AppTheme.bodySmall.copyWith(
                       color: AppTheme.greyText, fontWeight: FontWeight.w400),
                 ),
                 const SizedBox(height: 16.0),
@@ -57,18 +55,9 @@ class HistoryCard extends StatelessWidget {
           ),
           const SizedBox(width: 16.0),
           // Иконка
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: AppTheme.orange,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: const Icon(
-              Icons.list_alt, // Иконка "список"
-              color: Colors.white,
-              size: 28.0,
-            ),
+          Image.asset(
+            'assets/images/share_icon.png',
+            width: 35,
           ),
         ],
       ),

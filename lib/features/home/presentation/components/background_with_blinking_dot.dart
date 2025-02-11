@@ -5,6 +5,9 @@ import 'package:tes_test_app/core/widgets/blue_button.dart';
 class BackgroundWithBlinkingDot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
       padding: EdgeInsets.all(20),
       width: double.infinity,
@@ -67,8 +70,8 @@ class BackgroundWithBlinkingDot extends StatelessWidget {
           ),
           // Мигающая точка
           Positioned(
-            top: 165, // Расположение точки по вертикали
-            left: 275, // Расположение точки по горизонтали
+            top: screenHeight * 0.2, // Расположить 20% от высоты экрана
+            left: screenWidth * 0.6,
             child: const BlinkingDot(
               size: 55.0,
               color: Color(0xFFDEB236),

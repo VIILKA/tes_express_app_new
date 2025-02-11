@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tes_test_app/core/styles/app_theme.dart';
 import 'package:tes_test_app/core/widgets/blue_button.dart';
-import 'package:tes_test_app/features/home/presentation/screens/components/big_step_item.dart';
-import 'package:tes_test_app/features/home/presentation/screens/components/sub_steps_progress_bar.dart';
+import 'package:tes_test_app/features/home/presentation/components/big_step_item.dart';
+import 'package:tes_test_app/features/home/presentation/components/sub_steps_progress_bar.dart';
 
 class CarStatusWithScaleBar extends StatelessWidget {
   final String title;
@@ -25,8 +25,8 @@ class CarStatusWithScaleBar extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16),
       width: double.infinity,
-      height: 250,
-      padding: const EdgeInsets.all(20.0),
+      height: 260,
+      padding: const EdgeInsets.all(15.0),
       decoration: BoxDecoration(
         image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover),
         borderRadius: BorderRadius.circular(16.0),
@@ -55,7 +55,7 @@ class CarStatusWithScaleBar extends StatelessWidget {
                   const SizedBox(height: 4.0),
                   Text(
                     'VIN CODE: $vinCode',
-                    style: AppTheme.bodySmall.copyWith(
+                    style: AppTheme.bodyTiny.copyWith(
                       color: AppTheme.greyText,
                     ),
                   ),

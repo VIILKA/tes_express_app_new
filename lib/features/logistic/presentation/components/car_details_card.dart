@@ -55,7 +55,7 @@ class CarDetailsCard extends StatelessWidget {
                   const SizedBox(height: 4.0),
                   Text(
                     'VIN CODE: $vinCode',
-                    style: AppTheme.bodySmall.copyWith(
+                    style: AppTheme.bodyTiny.copyWith(
                       color: AppTheme.greyText,
                     ),
                   ),
@@ -84,7 +84,7 @@ class CarDetailsCard extends StatelessWidget {
                   const SizedBox(width: 4.0),
                   Text(
                     status,
-                    style: AppTheme.bodySmall.copyWith(
+                    style: AppTheme.bodyTiny.copyWith(
                         color: AppTheme.green, fontWeight: FontWeight.w500),
                   ),
                 ],
@@ -98,8 +98,8 @@ class CarDetailsCard extends StatelessWidget {
                   const SizedBox(width: 4.0),
                   Text(
                     deliveryDate,
-                    style: AppTheme.bodySmall
-                        .copyWith(fontWeight: FontWeight.w600),
+                    style:
+                        AppTheme.bodyTiny.copyWith(fontWeight: FontWeight.w600),
                   ),
                 ],
               ),

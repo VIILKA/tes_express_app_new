@@ -55,7 +55,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         listener: (context, state) {
           if (state is AuthLoggedIn) {
             // Если после регистрации мы автоматически залогинились
-            context.go('/home');
+            context.go('/');
           }
           if (state is AuthError) {
             // Показываем ошибку

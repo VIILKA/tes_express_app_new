@@ -1,55 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme {
-  static const TextStyle displayLarge = TextStyle(
+  static TextStyle displayLarge = TextStyle(
     letterSpacing: -0.1,
-    fontSize: 27,
+    fontSize: 27.sp,
     fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle displayMedium = TextStyle(
+  static TextStyle displayMedium = TextStyle(
     letterSpacing: -0.1,
-    fontSize: 23,
+    fontSize: 21.sp,
     fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle displaySmall = TextStyle(
+  static TextStyle displaySmall = TextStyle(
     letterSpacing: -0.1,
-    fontSize: 17,
-    fontWeight: FontWeight.w500,
-  );
-
-  static const TextStyle bodyLarge = TextStyle(
-    letterSpacing: -0.1,
-    fontSize: 17,
-    fontWeight: FontWeight.w500,
-  );
-
-  static const TextStyle bodyMedium = TextStyle(
-    letterSpacing: -0.1,
-    fontSize: 15,
+    fontSize: 17.sp,
     fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle bodyMedium500 = TextStyle(
+  static TextStyle bodyLarge = TextStyle(
     letterSpacing: -0.1,
-    fontSize: 15,
+    fontSize: 17.sp,
     fontWeight: FontWeight.w500,
   );
-  static const TextStyle buttonText = TextStyle(
-    fontSize: 15,
+
+  static TextStyle bodyMedium = TextStyle(
+    letterSpacing: -0.1,
+    fontSize: 15.sp,
     fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle bodySmall = TextStyle(
+  static TextStyle bodyMedium500 = TextStyle(
     letterSpacing: -0.1,
-    fontSize: 13,
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w500,
+  );
+  static TextStyle buttonText = TextStyle(
+    fontSize: 13.sp,
+    fontWeight: FontWeight.w600,
+  );
+
+  static TextStyle bodySmall = TextStyle(
+    letterSpacing: -0.1,
+    fontSize: 13.sp,
     fontWeight: FontWeight.w500,
   );
 
-  static const TextStyle bodyTiny = TextStyle(
+  static TextStyle bodyTiny = TextStyle(
     letterSpacing: -0.1,
-    fontSize: 10,
+    fontSize: 10.sp,
     fontWeight: FontWeight.w500,
   );
 

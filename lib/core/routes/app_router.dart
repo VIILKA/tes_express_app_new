@@ -8,9 +8,12 @@ import 'package:tes_test_app/features/auth/presentation/screens/login_page.dart'
 import 'package:tes_test_app/features/auth/presentation/screens/registration_page.dart';
 import 'package:tes_test_app/features/home/presentation/screens/home_screen.dart';
 import 'package:tes_test_app/features/logistic/presentation/screens/logistic_screen.dart';
+import 'package:tes_test_app/features/logistic/presentation/screens/logistic_status_with_map.dart';
 import 'package:tes_test_app/features/market/presentation/screens/market_screen.dart';
 import 'package:tes_test_app/features/news/presentation/screens/news_screen.dart';
+import 'package:tes_test_app/features/profile/presentation/screens/car_details_and_status.dart';
 import 'package:tes_test_app/features/profile/presentation/screens/profile_screen.dart';
+import 'package:tes_test_app/features/profile/presentation/screens/statuses_steps.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
@@ -76,7 +79,7 @@ class AppRouter {
         },
         routes: [
           GoRoute(
-            path: '/home',
+            path: '/',
             pageBuilder: (context, state) {
               return CustomTransitionPage(
                 key: state.pageKey,
@@ -112,29 +115,50 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: '/logistic',
-            pageBuilder: (context, state) {
-              return CustomTransitionPage(
-                key: state.pageKey,
-                child: const LogisticPage(),
-                transitionDuration: const Duration(milliseconds: 100),
-                reverseTransitionDuration: const Duration(milliseconds: 100),
-                transitionsBuilder: _fadeTransition,
-              );
-            },
-          ),
+              path: '/logistic',
+              pageBuilder: (context, state) {
+                return CustomTransitionPage(
+                  key: state.pageKey,
+                  child: const LogisticPage(),
+                  transitionDuration: const Duration(milliseconds: 100),
+                  reverseTransitionDuration: const Duration(milliseconds: 100),
+                  transitionsBuilder: _fadeTransition,
+                );
+              },
+              routes: [
+                GoRoute(
+                  path: 'logistic_details',
+                  builder: (context, state) {
+                    return LogisticStatusWithMap();
+                  },
+                ),
+              ]),
           GoRoute(
-            path: '/profile',
-            pageBuilder: (context, state) {
-              return CustomTransitionPage(
-                key: state.pageKey,
-                child: const ProfilePage(),
-                transitionDuration: const Duration(milliseconds: 100),
-                reverseTransitionDuration: const Duration(milliseconds: 100),
-                transitionsBuilder: _fadeTransition,
-              );
-            },
-          ),
+              path: '/profile',
+              pageBuilder: (context, state) {
+                return CustomTransitionPage(
+                  key: state.pageKey,
+                  child: const ProfilePage(),
+                  transitionDuration: const Duration(milliseconds: 100),
+                  reverseTransitionDuration: const Duration(milliseconds: 100),
+                  transitionsBuilder: _fadeTransition,
+                );
+              },
+              routes: [
+                GoRoute(
+                    path: 'car_details_status',
+                    builder: (context, state) {
+                      return CarDetailsAndStatus();
+                    },
+                    routes: [
+                      GoRoute(
+                        path: 'steps_statuses',
+                        builder: (context, state) {
+                          return StatusesSteps();
+                        },
+                      ),
+                    ]),
+              ]),
         ],
       ),
     ],
@@ -154,7 +178,7 @@ class AppRouter {
 
       // Если пользователь залогинен, а мы пытаемся на /login или /register
       if (authState is AuthLoggedIn && isLoggingIn) {
-        return '/home';
+        return '/';
       }
 
       // Если пользователь не залогинен, а мы пытаемся попасть куда-то не на /login|/register

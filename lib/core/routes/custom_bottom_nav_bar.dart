@@ -74,7 +74,7 @@ class NavItem {
 
 // Список всех вкладок приложения:
 const List<NavItem> navItems = [
-  NavItem(icon: Icons.home_outlined, label: 'Главное', route: '/home'),
+  NavItem(icon: Icons.home_outlined, label: 'Главное', route: '/'),
   NavItem(icon: Icons.store_outlined, label: 'Маркет', route: '/market'),
   NavItem(icon: Icons.newspaper_outlined, label: 'Новости', route: '/news'),
   NavItem(icon: Icons.map_outlined, label: 'Логистика', route: '/logistic'),
