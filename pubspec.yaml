@@ -60,8 +60,8 @@ flutter_launcher_icons:
       adaptive_icon_foreground: "assets/images/tes_express_logo.png"
 
 flutter_native_splash:
-  color: "#010101"
+  color: "#FFFFFF"
   image: assets/images/tes_express_logo.png
   android_12: 
     image: assets/images/tes_express_logo.png
-    color: "#010101"
+    color: "#FFFFFF"
