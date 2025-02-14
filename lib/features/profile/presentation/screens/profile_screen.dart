@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tes_test_app/core/styles/app_theme.dart';
+import 'package:tes_test_app/features/auth/presentation/blocs/auth_bloc.dart';
 import 'package:tes_test_app/features/profile/presentation/components/car_status_with_scale_bar.dart';
 import 'package:tes_test_app/features/profile/presentation/components/custom_code.dart';
 import 'package:tes_test_app/core/widgets/history_card.dart';
@@ -138,28 +140,27 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(
               height: 10,
             ),
+            BlocListener<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is AuthLoggedOut) {
+                  // Если после логаута состояние AuthLoggedOut,
+                  // перенаправляем пользователя на /login
+                  context.go('/login');
+                }
+              },
+              child: Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // При нажатии вызываем событие Logout
+                    context.read<AuthBloc>().add(Logout());
+                  },
+                  child: const Text('Выйти из аккаунта'),
+                ),
+              ),
+            ),
           ],
         ),
       )),
-
-      // BlocListener<AuthBloc, AuthState>(
-      //   listener: (context, state) {
-      //     if (state is AuthLoggedOut) {
-      //       // Если после логаута состояние AuthLoggedOut,
-      //       // перенаправляем пользователя на /login
-      //       context.go('/login');
-      //     }
-      //   },
-      //   child: Center(
-      //     child: ElevatedButton(
-      //       onPressed: () {
-      //         // При нажатии вызываем событие Logout
-      //         context.read<AuthBloc>().add(Logout());
-      //       },
-      //       child: const Text('Выйти из аккаунта'),
-      //     ),
-      //   ),
-      // ),
     );
   }
 }
