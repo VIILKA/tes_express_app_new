@@ -3,37 +3,31 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme {
   static TextStyle displayLarge = TextStyle(
-    letterSpacing: -0.1,
     fontSize: 27.sp,
     fontWeight: FontWeight.w600,
   );
 
   static TextStyle displayMedium = TextStyle(
-    letterSpacing: -0.1,
     fontSize: 21.sp,
     fontWeight: FontWeight.w600,
   );
 
   static TextStyle displaySmall = TextStyle(
-    letterSpacing: -0.1,
     fontSize: 17.sp,
     fontWeight: FontWeight.w600,
   );
 
   static TextStyle bodyLarge = TextStyle(
-    letterSpacing: -0.1,
     fontSize: 17.sp,
     fontWeight: FontWeight.w500,
   );
 
   static TextStyle bodyMedium = TextStyle(
-    letterSpacing: -0.1,
     fontSize: 15.sp,
     fontWeight: FontWeight.w600,
   );
 
   static TextStyle bodyMedium500 = TextStyle(
-    letterSpacing: -0.1,
     fontSize: 15.sp,
     fontWeight: FontWeight.w500,
   );
@@ -43,13 +37,11 @@ class AppTheme {
   );
 
   static TextStyle bodySmall = TextStyle(
-    letterSpacing: -0.1,
     fontSize: 13.sp,
     fontWeight: FontWeight.w500,
   );
 
   static TextStyle bodyTiny = TextStyle(
-    letterSpacing: -0.1,
     fontSize: 10.sp,
     fontWeight: FontWeight.w500,
   );
