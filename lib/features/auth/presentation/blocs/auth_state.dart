@@ -1,4 +1,4 @@
-// feature/auth/presentation/bloc/auth_state.dart
+// auth_state.dart
 part of 'auth_bloc.dart';
 
 abstract class AuthState extends Equatable {
@@ -12,13 +12,15 @@ class AuthInitial extends AuthState {}
 
 class AuthLoading extends AuthState {}
 
+// Пользователь залогинен
 class AuthLoggedIn extends AuthState {}
 
+// Пользователь разлогинен
 class AuthLoggedOut extends AuthState {}
 
+// Ошибка (например, неверный логин/пароль, ошибка сети и т.д.)
 class AuthError extends AuthState {
   final String message;
-
   const AuthError(this.message);
 
   @override
