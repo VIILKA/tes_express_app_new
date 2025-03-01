@@ -1,55 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme {
-  static const TextStyle displayLarge = TextStyle(
-    letterSpacing: -0.1,
-    fontSize: 27,
+  static TextStyle displayLarge = TextStyle(
+    fontSize: 27.sp,
     fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle displayMedium = TextStyle(
-    letterSpacing: -0.1,
-    fontSize: 23,
+  static TextStyle displayMedium = TextStyle(
+    fontSize: 21.sp,
     fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle displaySmall = TextStyle(
-    letterSpacing: -0.1,
-    fontSize: 17,
-    fontWeight: FontWeight.w500,
-  );
-
-  static const TextStyle bodyLarge = TextStyle(
-    letterSpacing: -0.1,
-    fontSize: 17,
-    fontWeight: FontWeight.w500,
-  );
-
-  static const TextStyle bodyMedium = TextStyle(
-    letterSpacing: -0.1,
-    fontSize: 15,
+  static TextStyle displaySmall = TextStyle(
+    fontSize: 17.sp,
     fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle bodyMedium500 = TextStyle(
-    letterSpacing: -0.1,
-    fontSize: 15,
+  static TextStyle bodyLarge = TextStyle(
+    fontSize: 17.sp,
     fontWeight: FontWeight.w500,
   );
-  static const TextStyle buttonText = TextStyle(
-    fontSize: 15,
+
+  static TextStyle bodyMedium = TextStyle(
+    fontSize: 15.sp,
     fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle bodySmall = TextStyle(
-    letterSpacing: -0.1,
-    fontSize: 13,
+  static TextStyle bodyMedium500 = TextStyle(
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w500,
+  );
+  static TextStyle buttonText = TextStyle(
+    fontSize: 13.sp,
+    fontWeight: FontWeight.w600,
+  );
+
+  static TextStyle bodySmall = TextStyle(
+    fontSize: 13.sp,
     fontWeight: FontWeight.w500,
   );
 
-  static const TextStyle bodyTiny = TextStyle(
-    letterSpacing: -0.1,
-    fontSize: 10,
+  static TextStyle bodyTiny = TextStyle(
+    fontSize: 10.sp,
     fontWeight: FontWeight.w500,
   );
 

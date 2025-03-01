@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
         listener: (context, state) {
           if (state is AuthLoggedIn) {
             // Успешный логин -> перенаправляем на /home
-            context.go('/home');
+            context.go('/');
           }
           if (state is AuthError) {
             // Показываем ошибку

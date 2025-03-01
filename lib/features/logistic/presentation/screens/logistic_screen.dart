@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tes_test_app/core/styles/app_theme.dart';
-import 'package:tes_test_app/features/logistic/presentation/screens/components/car_details_card.dart';
+import 'package:tes_test_app/features/logistic/presentation/components/car_details_card.dart';
 
 class LogisticPage extends StatefulWidget {
   const LogisticPage({super.key});
@@ -41,7 +42,7 @@ class _LogisticPageState extends State<LogisticPage> {
             status: 'Доставлен',
             deliveryDate: '15.01.2025-16.01.2025',
             onButtonPressed: () {
-              print('Нажата кнопка "Посмотреть"');
+              context.go('/logistic/logistic_details');
             },
           ),
         ],

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tes_test_app/core/styles/app_theme.dart';
-import 'package:tes_test_app/features/profile/presentation/screens/components/car_status_with_scale_bar.dart';
-import 'package:tes_test_app/features/profile/presentation/screens/components/custom_code.dart';
-import 'package:tes_test_app/features/profile/presentation/screens/components/history_card.dart';
-import 'package:tes_test_app/features/profile/presentation/screens/components/logistics_card.dart';
-import 'package:tes_test_app/features/profile/presentation/screens/components/status_card.dart';
+import 'package:tes_test_app/features/auth/presentation/blocs/auth_bloc.dart';
+import 'package:tes_test_app/features/profile/presentation/components/car_status_with_scale_bar.dart';
+import 'package:tes_test_app/features/profile/presentation/components/custom_code.dart';
+import 'package:tes_test_app/core/widgets/history_card.dart';
+import 'package:tes_test_app/features/profile/presentation/components/logistics_card.dart';
+import 'package:tes_test_app/features/profile/presentation/components/status_card.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -107,17 +110,16 @@ class _ProfilePageState extends State<ProfilePage> {
               status: 'Доставлен',
               deliveryDate: '15.01.2025-16.01.2025',
               onButtonPressed: () {
-                print('Нажата кнопка "Посмотреть"');
+                context.go('/profile/car_details_status');
               },
             ),
             SizedBox(
               height: 10,
             ),
             CarStatusWithScaleBar(
-              title: 'Lixiang L7 Pro',
-              vinCode: 'HLX781788912311840',
-              imagePath:
-                  'assets/images/lixiang_l7.png', // Путь к вашему изображению
+              title: 'Zeekr 001 FR',
+              vinCode: 'ND78124612541219',
+              imagePath: 'assets/images/zeekr_001.png',
               status: 'Доставлен',
               deliveryDate: '15.01.2025-16.01.2025',
               onButtonPressed: () {
@@ -135,28 +137,30 @@ class _ProfilePageState extends State<ProfilePage> {
                 print('Кнопка "Посмотреть" нажата');
               },
             ),
+            SizedBox(
+              height: 10,
+            ),
+            BlocListener<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is AuthLoggedOut) {
+                  // Если после логаута состояние AuthLoggedOut,
+                  // перенаправляем пользователя на /login
+                  context.go('/login');
+                }
+              },
+              child: Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // При нажатии вызываем событие Logout
+                    context.read<AuthBloc>().add(Logout());
+                  },
+                  child: const Text('Выйти из аккаунта'),
+                ),
+              ),
+            ),
           ],
         ),
       )),
-
-      // BlocListener<AuthBloc, AuthState>(
-      //   listener: (context, state) {
-      //     if (state is AuthLoggedOut) {
-      //       // Если после логаута состояние AuthLoggedOut,
-      //       // перенаправляем пользователя на /login
-      //       context.go('/login');
-      //     }
-      //   },
-      //   child: Center(
-      //     child: ElevatedButton(
-      //       onPressed: () {
-      //         // При нажатии вызываем событие Logout
-      //         context.read<AuthBloc>().add(Logout());
-      //       },
-      //       child: const Text('Выйти из аккаунта'),
-      //     ),
-      //   ),
-      // ),
     );
   }
 }
