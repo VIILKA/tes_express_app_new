@@ -26,10 +26,10 @@ class _HomePageState extends State<HomePage> {
       'price': 'От 5.6 млн рублей',
     },
     {
-      'imagePath': 'assets/images/xiaomi_SU7_ultra.jpeg',
+      'imagePath': 'assets/images/xiaomi_SU7_ultra.png',
       'title': 'Xiaomi SU7 Ultra',
       'price': 'От 6.2 млн рублей',
-    },
+    }
   ];
 
   final List<Map<String, String>> newsData = [
