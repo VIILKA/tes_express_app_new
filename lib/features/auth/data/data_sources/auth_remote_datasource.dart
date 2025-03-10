@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:tes_test_app/features/auth/domain/entities/user_login.dart';
 import 'package:tes_test_app/features/auth/domain/entities/user_register.dart';
@@ -11,6 +13,7 @@ abstract class AuthRemoteDataSource {
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final String baseUrl;
   final http.Client client;
+  final Duration timeout = const Duration(seconds: 10); // Таймаут в 10 секунд
 
   AuthRemoteDataSourceImpl({
     required this.baseUrl,
@@ -30,22 +33,29 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       "patronymic": userRegister.patronymic,
     };
 
-    final response = await client.post(
-      url,
-      headers: {
-        'accept': '*/*',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(body),
-    );
+    try {
+      final response = await client
+          .post(
+            url,
+            headers: {
+              'accept': '*/*',
+              'Content-Type': 'application/json',
+            },
+            body: jsonEncode(body),
+          )
+          .timeout(timeout);
 
-    if (response.statusCode == 201) {
-      // Успешно. (Возможно, придёт json-ответ, который нужно распарсить.)
-      return true;
-    } else {
-      // Ошибка
-      print(response.statusCode);
-      return false;
+      if (response.statusCode == 201) {
+        return true;
+      } else {
+        throw ServerException('Ошибка сервера: ${response.statusCode}');
+      }
+    } on TimeoutException {
+      throw ServerException('Превышено время ожидания ответа от сервера');
+    } on SocketException {
+      throw ServerException('Отсутствует подключение к интернету');
+    } catch (e) {
+      throw ServerException('Произошла ошибка при регистрации');
     }
   }
 
@@ -58,20 +68,35 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       "password": userLogin.password,
     };
 
-    final response = await client.post(
-      url,
-      headers: {
-        'accept': '*/*',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(body),
-    );
+    try {
+      final response = await client
+          .post(
+            url,
+            headers: {
+              'accept': '*/*',
+              'Content-Type': 'application/json',
+            },
+            body: jsonEncode(body),
+          )
+          .timeout(timeout);
 
-    if (response.statusCode == 200) {
-      // Успешно. (Тут тоже, возможно, надо распарсить токен.)
-      return true;
-    } else {
-      return false;
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw ServerException('Ошибка сервера: ${response.statusCode}');
+      }
+    } on TimeoutException {
+      throw ServerException('Превышено время ожидания ответа от сервера');
+    } on SocketException {
+      throw ServerException('Отсутствует подключение к интернету');
+    } catch (e) {
+      throw ServerException('Произошла ошибка при входе');
     }
   }
+}
+
+// Добавляем класс исключения
+class ServerException implements Exception {
+  final String message;
+  ServerException(this.message);
 }

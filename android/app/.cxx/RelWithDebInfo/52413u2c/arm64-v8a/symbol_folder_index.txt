@@ -1,0 +1,1 @@
+C:\Users\vilka\Documents\GitHub\tes_express_app_new\build\app\intermediates\cxx\RelWithDebInfo\52413u2c\obj\arm64-v8a

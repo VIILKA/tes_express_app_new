@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tes_test_app/core/routes/route_constants.dart';
+import 'package:tes_test_app/core/styles/app_theme.dart';
 import 'package:tes_test_app/features/auth/presentation/blocs/auth_bloc.dart';
 
 class LoginPage extends StatefulWidget {
@@ -24,26 +28,27 @@ class _LoginPageState extends State<LoginPage> {
   void _onLoginPressed() {
     final login = _loginController.text.trim();
     final password = _passwordController.text.trim();
-
     context.read<AuthBloc>().add(Login(login, password));
+  }
+
+  void _onRegisterTap() {
+    context.go(RouteConstants.register);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Вход'),
-      ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthLoggedIn) {
-            // Успешный логин -> перенаправляем на /home
-            context.go('/');
+            context.go(RouteConstants.home);
           }
           if (state is AuthError) {
-            // Показываем ошибку
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
+              SnackBar(
+                content: Text(state.message),
+                behavior: SnackBarBehavior.floating,
+              ),
             );
           }
         },
@@ -52,40 +57,137 @@ class _LoginPageState extends State<LoginPage> {
             return const Center(child: CircularProgressIndicator());
           }
 
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                TextField(
-                  controller: _loginController,
-                  decoration: const InputDecoration(
-                    labelText: 'Логин',
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 72.h),
+                  Text(
+                    'Вход',
+                    style: AppTheme.displayLarge.copyWith(
+                      color: AppTheme.black,
+                    ),
                   ),
-                ),
-                TextField(
-                  controller: _passwordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Пароль',
+                  SizedBox(height: 4.h),
+                  Text(
+                    'Введите данные для входа',
+                    style: AppTheme.bodySmall.copyWith(
+                      color: AppTheme.greyText,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-                  obscureText: true,
-                ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: _onLoginPressed,
-                  child: const Text('Войти'),
-                ),
-                const SizedBox(height: 12),
-                TextButton(
-                  onPressed: () {
-                    // Переход на страницу регистрации
-                    context.go('/register');
-                  },
-                  child: const Text('Зарегистрироваться'),
-                )
-              ],
+                  SizedBox(height: 16.h),
+                  _buildInputField(
+                    label: 'Логин',
+                    controller: _loginController,
+                  ),
+                  SizedBox(height: 15.h),
+                  _buildInputField(
+                    label: 'Пароль',
+                    controller: _passwordController,
+                    obscureText: true,
+                  ),
+                  SizedBox(height: 23.h),
+                  _buildLoginButton(),
+                  SizedBox(height: 12.h),
+                  _buildRegisterLink(),
+                ],
+              ),
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildInputField({
+    required String label,
+    required TextEditingController controller,
+    bool obscureText = false,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: AppTheme.bodyLarge.copyWith(
+            color: AppTheme.black,
+          ),
+        ),
+        SizedBox(height: 6.h),
+        Container(
+          height: 44.h,
+          decoration: BoxDecoration(
+            color: AppTheme.whiteGrey,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: AppTheme.greyText,
+              width: 1,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                blurRadius: 2,
+              ),
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.08),
+                blurRadius: 24,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Center(
+            child: TextField(
+              controller: controller,
+              obscureText: obscureText,
+              style: AppTheme.bodyMedium,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
+                border: InputBorder.none,
+                hintStyle: AppTheme.bodyMedium.copyWith(
+                  color: AppTheme.greyText,
+                ),
+                isDense: true,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLoginButton() {
+    return SizedBox(
+      width: double.infinity,
+      height: 54.h,
+      child: CupertinoButton(
+        onPressed: _onLoginPressed,
+        color: AppTheme.main,
+        borderRadius: BorderRadius.circular(40),
+        child: Text(
+          'Продолжить',
+          style: AppTheme.bodyMedium.copyWith(
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRegisterLink() {
+    return SizedBox(
+      width: double.infinity,
+      height: 44.h,
+      child: TextButton(
+        onPressed: _onRegisterTap,
+        child: Text(
+          'Нет аккаунта? Зарегистрироваться',
+          style: AppTheme.buttonText.copyWith(
+            color: AppTheme.greyText,
+          ),
+        ),
       ),
     );
   }

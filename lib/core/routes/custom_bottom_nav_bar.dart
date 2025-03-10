@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tes_test_app/features/auth/presentation/blocs/auth_bloc.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -12,6 +14,13 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.watch<AuthBloc>().state;
+    final isGuest = authState is AuthGuest;
+
+    final displayedItems = isGuest
+        ? navItems.where((item) => item.route != '/logistic').toList()
+        : navItems;
+
     return Container(
       height: 85,
       decoration: const BoxDecoration(
@@ -26,8 +35,8 @@ class CustomBottomNavBar extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: List.generate(navItems.length, (index) {
-          final navItem = navItems[index];
+        children: List.generate(displayedItems.length, (index) {
+          final navItem = displayedItems[index];
           final isSelected = currentIndex == index;
 
           return GestureDetector(

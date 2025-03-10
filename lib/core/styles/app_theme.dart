@@ -2,46 +2,66 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme {
-  static TextStyle displayLarge = TextStyle(
+  static const String _fontFamily = 'SFProDisplay';
+
+  static final TextStyle displayLarge = TextStyle(
+    fontStyle: FontStyle.normal,
+    fontFamily: _fontFamily,
     fontSize: 27.sp,
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle displayMedium = TextStyle(
+  static final TextStyle displayMedium = TextStyle(
+    fontStyle: FontStyle.normal,
+    fontFamily: _fontFamily,
     fontSize: 21.sp,
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle displaySmall = TextStyle(
+  static final TextStyle displaySmall = TextStyle(
+    fontStyle: FontStyle.normal,
+    fontFamily: _fontFamily,
     fontSize: 17.sp,
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle bodyLarge = TextStyle(
+  static final TextStyle bodyLarge = TextStyle(
+    fontStyle: FontStyle.normal,
+    fontFamily: _fontFamily,
     fontSize: 17.sp,
     fontWeight: FontWeight.w500,
   );
 
-  static TextStyle bodyMedium = TextStyle(
+  static final TextStyle bodyMedium = TextStyle(
+    fontStyle: FontStyle.normal,
+    fontFamily: _fontFamily,
     fontSize: 15.sp,
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle bodyMedium500 = TextStyle(
+  static final TextStyle bodyMedium500 = TextStyle(
+    fontStyle: FontStyle.normal,
+    fontFamily: _fontFamily,
     fontSize: 15.sp,
     fontWeight: FontWeight.w500,
   );
-  static TextStyle buttonText = TextStyle(
+  static final TextStyle buttonText = TextStyle(
+    fontStyle: FontStyle.normal,
+    fontFamily: _fontFamily,
     fontSize: 13.sp,
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle bodySmall = TextStyle(
+  static final TextStyle bodySmall = TextStyle(
+    fontStyle: FontStyle.normal,
+    fontFamily: _fontFamily,
     fontSize: 13.sp,
     fontWeight: FontWeight.w500,
   );
 
-  static TextStyle bodyTiny = TextStyle(
+  static final TextStyle bodyTiny = TextStyle(
+    fontStyle: FontStyle.normal,
+    fontFamily: _fontFamily,
     fontSize: 10.sp,
     fontWeight: FontWeight.w500,
   );

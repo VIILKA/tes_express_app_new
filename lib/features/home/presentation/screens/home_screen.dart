@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       'title': 'Новые машины в МСК\n oт Zeekr 001 до Tesla Model S',
     },
     {
-      'imagePath': 'assets/images/xiaomi_SU7_ultra.jpeg',
+      'imagePath': 'assets/images/xiaomi_SU7_ultra.png',
       'title': 'Новая К5 2025 года:\nВедро без колес',
     },
   ];

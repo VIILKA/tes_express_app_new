@@ -1,0 +1,2 @@
+C:/Users/vilka/Documents/GitHub/tes_express_app_new/android/app/.cxx/RelWithDebInfo/52413u2c/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/vilka/Documents/GitHub/tes_express_app_new/android/app/.cxx/RelWithDebInfo/52413u2c/arm64-v8a/CMakeFiles/rebuild_cache.dir

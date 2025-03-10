@@ -47,3 +47,8 @@ class Register extends AuthEvent {
   List<Object?> get props =>
       [login, password, phoneNumber, name, surname, patronymic];
 }
+
+class ContinueAsGuest extends AuthEvent {
+  @override
+  List<Object?> get props => [];
+}

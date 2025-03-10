@@ -27,26 +27,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<Login>(_onLogin);
     on<Logout>(_onLogout);
     on<Register>(_onRegister);
+    on<ContinueAsGuest>(_onContinueAsGuest);
   }
 
   Future<void> _onCheckAuth(CheckAuth event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
+    final status = await isLoggedInUseCase();
 
-    final isLoggedIn = await isLoggedInUseCase(); // вызываем useCase
-    if (isLoggedIn) {
-      emit(AuthLoggedIn());
-    } else {
-      emit(AuthLoggedOut());
+    switch (status) {
+      case AuthStatus.authenticated:
+        emit(AuthLoggedIn());
+        break;
+      case AuthStatus.guest:
+        emit(AuthGuest());
+        break;
+      case AuthStatus.unauthenticated:
+        emit(AuthLoggedOut());
+        break;
     }
   }
 
   Future<void> _onLogin(Login event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-
     final userLogin = UserLogin(login: event.login, password: event.password);
-    final success = await loginUseCase(userLogin); // вызываем useCase
+    final result = await loginUseCase(userLogin);
 
-    if (success) {
+    if (result.success) {
       emit(AuthLoggedIn());
     } else {
       emit(AuthError("Не удалось авторизоваться"));
@@ -63,7 +69,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onRegister(Register event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-
     final userRegister = UserRegister(
       login: event.login,
       password: event.password,
@@ -73,13 +78,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       patronymic: event.patronymic,
     );
 
-    final success = await registerUseCase(userRegister); // UseCase
+    final result = await registerUseCase(userRegister);
 
-    if (success) {
+    if (result.success) {
       emit(AuthLoggedIn());
     } else {
-      emit(AuthError("Не удалось зарегистрироваться"));
+      emit(AuthError(result.error ?? "Не удалось зарегистрироваться"));
       emit(AuthLoggedOut());
     }
+  }
+
+  Future<void> _onContinueAsGuest(
+      ContinueAsGuest event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    await authRepository.setGuestMode(true);
+    emit(AuthGuest());
   }
 }
