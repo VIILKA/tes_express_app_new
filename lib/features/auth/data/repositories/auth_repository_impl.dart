@@ -55,6 +55,16 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> logout() {
     return localDataSource.setIsLoggedIn(false);
   }
+
+  @override
+  Future<void> saveToken(String token) async {
+    await localDataSource.saveToken(token);
+  }
+
+  @override
+  Future<void> clearAllData() async {
+    await localDataSource.clearAllData();
+  }
 }
 
 // Добавляем класс для результата авторизации

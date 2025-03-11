@@ -14,15 +14,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final IsLoggedInUseCase isLoggedInUseCase;
   final LoginUseCase loginUseCase;
   final RegisterUseCase registerUseCase;
-  final AuthRepository
-      authRepository; // или можно сделать отдельный LogoutUseCase
+  final AuthRepository authRepository;
 
   AuthBloc({
     required this.isLoggedInUseCase,
     required this.loginUseCase,
     required this.registerUseCase,
     required this.authRepository,
-  }) : super(AuthInitial()) {
+    required AuthStatus initialStatus,
+  }) : super(_mapAuthStatusToState(initialStatus)) {
     on<CheckAuth>(_onCheckAuth);
     on<Login>(_onLogin);
     on<Logout>(_onLogout);
@@ -30,25 +30,51 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ContinueAsGuest>(_onContinueAsGuest);
   }
 
-  Future<void> _onCheckAuth(CheckAuth event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
-    final status = await isLoggedInUseCase();
-
+  static AuthState _mapAuthStatusToState(AuthStatus status) {
     switch (status) {
       case AuthStatus.authenticated:
-        emit(AuthLoggedIn());
-        break;
+        return AuthLoggedIn();
       case AuthStatus.guest:
-        emit(AuthGuest());
-        break;
+        return AuthGuest();
       case AuthStatus.unauthenticated:
-        emit(AuthLoggedOut());
-        break;
+        return AuthLoggedOut();
+    }
+  }
+
+  Future<void> _onCheckAuth(CheckAuth event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+
+    try {
+      final status = await isLoggedInUseCase();
+
+      switch (status) {
+        case AuthStatus.authenticated:
+          emit(AuthLoggedIn());
+          break;
+        case AuthStatus.guest:
+          emit(AuthGuest());
+          break;
+        case AuthStatus.unauthenticated:
+          emit(AuthLoggedOut());
+          break;
+      }
+    } catch (e) {
+      // If there's any error during auth check, default to logged out
+      emit(AuthLoggedOut());
     }
   }
 
   Future<void> _onLogin(Login event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
+
+    // Admin login check
+    if (event.login == 'admin' && event.password == 'admin') {
+      await authRepository.saveToken('admin_token');
+      emit(AuthLoggedIn(isAdmin: true));
+      return;
+    }
+
+    // Regular login logic
     final userLogin = UserLogin(login: event.login, password: event.password);
     final result = await loginUseCase(userLogin);
 
@@ -63,8 +89,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLogout(Logout event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
 
-    await authRepository.logout(); // или создайте LogoutUseCase
-    emit(AuthLoggedOut());
+    try {
+      await authRepository
+          .clearAllData(); // Clear all data instead of just logout
+      emit(AuthLoggedOut());
+    } catch (e) {
+      // Even if there's an error, ensure we emit logged out state
+      emit(AuthLoggedOut());
+    }
   }
 
   Future<void> _onRegister(Register event, Emitter<AuthState> emit) async {

@@ -1,8 +1,10 @@
-// feature/auth/domain/usecases/is_logged_in_usecase.dart
-
 import 'package:tes_test_app/features/auth/domain/repositories/auth_repository.dart';
 
-enum AuthStatus { authenticated, guest, unauthenticated }
+enum AuthStatus {
+  authenticated,
+  guest,
+  unauthenticated,
+}
 
 class IsLoggedInUseCase {
   final AuthRepository repository;
@@ -10,11 +12,23 @@ class IsLoggedInUseCase {
   IsLoggedInUseCase(this.repository);
 
   Future<AuthStatus> call() async {
-    final isLoggedIn = await repository.isLoggedIn();
-    final isGuest = await repository.isGuestMode();
+    try {
+      final isLoggedIn = await repository.isLoggedIn();
 
-    if (isLoggedIn) return AuthStatus.authenticated;
-    if (isGuest) return AuthStatus.guest;
-    return AuthStatus.unauthenticated;
+      if (isLoggedIn) {
+        return AuthStatus.authenticated;
+      }
+
+      final isGuest = await repository.isGuestMode();
+
+      if (isGuest) {
+        return AuthStatus.guest;
+      }
+
+      return AuthStatus.unauthenticated;
+    } catch (e) {
+      // If there's any error, default to unauthenticated
+      return AuthStatus.unauthenticated;
+    }
   }
 }

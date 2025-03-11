@@ -28,7 +28,13 @@ class _LoginPageState extends State<LoginPage> {
   void _onLoginPressed() {
     final login = _loginController.text.trim();
     final password = _passwordController.text.trim();
-    context.read<AuthBloc>().add(Login(login, password));
+
+    // Проверка на админский доступ
+    if (login == 'admin' && password == 'admin') {
+      context.read<AuthBloc>().add(Login(login, password));
+    } else {
+      context.read<AuthBloc>().add(Login(login, password));
+    }
   }
 
   void _onRegisterTap() {
@@ -58,43 +64,61 @@ class _LoginPageState extends State<LoginPage> {
           }
 
           return SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 72.h),
-                  Text(
-                    'Вход',
-                    style: AppTheme.displayLarge.copyWith(
-                      color: AppTheme.black,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 72.h),
+                      Text(
+                        'Вход',
+                        style: AppTheme.displayLarge.copyWith(
+                          color: AppTheme.black,
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        'Введите данные для входа',
+                        style: AppTheme.bodySmall.copyWith(
+                          color: AppTheme.greyText,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      SizedBox(height: 16.h),
+                      _buildInputField(
+                        label: 'Логин',
+                        controller: _loginController,
+                      ),
+                      SizedBox(height: 15.h),
+                      _buildInputField(
+                        label: 'Пароль',
+                        controller: _passwordController,
+                        obscureText: true,
+                      ),
+                      SizedBox(height: 23.h),
+                      _buildLoginButton(),
+                      SizedBox(height: 12.h),
+                      _buildRegisterLink(),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 30.h),
+                Container(
+                  width: double.infinity,
+                  height: 180.h,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/auth_half_car.png'),
+                      fit: BoxFit.contain,
+                      alignment: Alignment
+                          .centerLeft, // Прижимаем изображение к левому краю
                     ),
                   ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    'Введите данные для входа',
-                    style: AppTheme.bodySmall.copyWith(
-                      color: AppTheme.greyText,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  SizedBox(height: 16.h),
-                  _buildInputField(
-                    label: 'Логин',
-                    controller: _loginController,
-                  ),
-                  SizedBox(height: 15.h),
-                  _buildInputField(
-                    label: 'Пароль',
-                    controller: _passwordController,
-                    obscureText: true,
-                  ),
-                  SizedBox(height: 23.h),
-                  _buildLoginButton(),
-                  SizedBox(height: 12.h),
-                  _buildRegisterLink(),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },

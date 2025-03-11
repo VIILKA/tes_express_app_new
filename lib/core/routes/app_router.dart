@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:tes_test_app/core/routes/main_page.dart';
 import 'package:tes_test_app/core/routes/route_constants.dart';
+import 'package:tes_test_app/core/widgets/spash_page.dart';
 import 'package:tes_test_app/features/auth/presentation/blocs/auth_bloc.dart';
 import 'package:tes_test_app/features/auth/presentation/screens/login_page.dart';
 import 'package:tes_test_app/features/auth/presentation/screens/registration_page.dart';
@@ -22,16 +23,24 @@ class AppRouter {
   static const _defaultReverseTransitionDuration = Duration(milliseconds: 100);
 
   static final GoRouter router = GoRouter(
-    initialLocation: '/',
+    // Начинаем со Splash:
+    initialLocation: RouteConstants.splash,
+    debugLogDiagnostics: true,
+
+    // При необходимости делаем перенаправления:
     redirect: (context, state) {
       final authState = context.read<AuthBloc>().state;
       final currentRoute = state.uri.toString();
 
-      if (authState is AuthInitial || authState is AuthLoading) {
+      // Если находимся на Splash, не перенаправляем
+      if (currentRoute == RouteConstants.splash) {
         return null;
       }
 
+      // Пример простой логики:
       if (authState is AuthLoggedOut) {
+        // Если пользователь разлогинен, отправляем на /login
+        // кроме случаев, когда он уже на /login или /register
         if (currentRoute != RouteConstants.login &&
             currentRoute != RouteConstants.register) {
           return RouteConstants.login;
@@ -39,26 +48,28 @@ class AppRouter {
         return null;
       }
 
+      // Если пользователь гость и пытается попасть на логистику
       if (authState is AuthGuest) {
         if (RouteConstants.isGuestRestrictedRoute(currentRoute)) {
           return RouteConstants.notRegisteredUser;
         }
-        if (currentRoute == '/') {
-          return RouteConstants.home;
-        }
-        return null;
       }
 
-      if (authState is AuthLoggedIn) {
-        if (currentRoute == '/') {
-          return RouteConstants.home;
-        }
-        return null;
-      }
-
+      // Иначе не перенаправляем
       return null;
     },
+
     routes: [
+      // 1. Splash по пути '/'
+      GoRoute(
+        path: RouteConstants.splash,
+        pageBuilder: (context, state) => _buildTransitionPage(
+          key: state.pageKey,
+          child: const SplashPage(),
+        ),
+      ),
+
+      // 2. Маршруты авторизации
       GoRoute(
         path: RouteConstants.login,
         pageBuilder: (context, state) => _buildTransitionPage(
@@ -73,6 +84,8 @@ class AppRouter {
           child: const RegistrationPage(),
         ),
       ),
+
+      // 3. ShellRoute (все остальные экраны под нижней навигацией)
       ShellRoute(
         pageBuilder: (context, state, child) => _buildTransitionPage(
           key: state.pageKey,
@@ -190,7 +203,6 @@ class AppRouter {
       begin: const Offset(1.0, 0.0),
       end: Offset.zero,
     ).chain(CurveTween(curve: Curves.easeInOut));
-
     return SlideTransition(
       position: animation.drive(tween),
       child: child,

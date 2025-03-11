@@ -15,11 +15,12 @@ class CheckAuth extends AuthEvent {}
 class Login extends AuthEvent {
   final String login;
   final String password;
+  final bool isAdmin;
 
-  const Login(this.login, this.password);
+  const Login(this.login, this.password, {this.isAdmin = false});
 
   @override
-  List<Object?> get props => [login, password];
+  List<Object?> get props => [login, password, isAdmin];
 }
 
 // Выход из системы

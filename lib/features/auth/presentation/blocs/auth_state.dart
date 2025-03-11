@@ -13,7 +13,14 @@ class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 
 // Пользователь залогинен
-class AuthLoggedIn extends AuthState {}
+class AuthLoggedIn extends AuthState {
+  final bool isAdmin;
+
+  const AuthLoggedIn({this.isAdmin = false});
+
+  @override
+  List<Object?> get props => [isAdmin];
+}
 
 // Пользователь разлогинен
 class AuthLoggedOut extends AuthState {}

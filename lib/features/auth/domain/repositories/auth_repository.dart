@@ -15,4 +15,8 @@ abstract class AuthRepository {
   Future<void> setGuestMode(bool value);
 
   Future<void> logout();
+
+  Future<void> saveToken(String token);
+
+  Future<void> clearAllData();
 }

@@ -1,7 +1,7 @@
 name: tes_test_app
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.0.1+1
+version: 1.0.2+1
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -20,6 +20,8 @@ dependencies:
   flutter_map: ^8.0.0
   latlong2: ^0.9.1
   http: ^1.3.0
+  flutter_svg: ^2.0.9
+  url_launcher: ^6.3.1
 
 
 dev_dependencies:
@@ -69,10 +71,14 @@ flutter_launcher_icons:
       min_sdk_android: 24 
       adaptive_icon_background: "#4A4A4C" 
       adaptive_icon_foreground: "assets/images/tes_express_logo.png"
+      
 
 flutter_native_splash:
   color: "#FFFFFF"
-  image: assets/images/tes_express_logo.png
+  image: assets/images/splasch_icon.png
   android_12: 
-    image: assets/images/tes_express_logo.png
+    image: assets/images/splasch_icon.png
     color: "#FFFFFF"
+    branding: assets/images/branding_image.png
+  branding: assets/images/branding_image.png
+

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tes_test_app/core/routes/route_constants.dart';
 import 'package:tes_test_app/features/auth/presentation/blocs/auth_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -44,12 +46,16 @@ class CustomBottomNavBar extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  size: 30,
+                SvgPicture.asset(
                   navItem.icon,
-                  color: isSelected
-                      ? Colors.amber
-                      : const Color.fromRGBO(153, 162, 173, 0.88),
+                  width: 30,
+                  height: 30,
+                  colorFilter: ColorFilter.mode(
+                    isSelected
+                        ? Colors.amber
+                        : const Color.fromRGBO(153, 162, 173, 0.88),
+                    BlendMode.srcIn,
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Text(
@@ -70,7 +76,7 @@ class CustomBottomNavBar extends StatelessWidget {
 }
 
 class NavItem {
-  final IconData icon;
+  final String icon;
   final String label;
   final String route;
 
@@ -83,9 +89,24 @@ class NavItem {
 
 // Список всех вкладок приложения:
 const List<NavItem> navItems = [
-  NavItem(icon: Icons.home_outlined, label: 'Главное', route: '/'),
-  NavItem(icon: Icons.store_outlined, label: 'Маркет', route: '/market'),
-  NavItem(icon: Icons.newspaper_outlined, label: 'Новости', route: '/news'),
-  NavItem(icon: Icons.map_outlined, label: 'Логистика', route: '/logistic'),
-  NavItem(icon: Icons.person_2_outlined, label: 'Профиль', route: '/profile'),
+  NavItem(
+      icon: 'assets/images/home_icon.svg',
+      label: 'Главное',
+      route: RouteConstants.home),
+  NavItem(
+      icon: 'assets/images/market_icon.svg',
+      label: 'Маркет',
+      route: RouteConstants.market),
+  NavItem(
+      icon: 'assets/images/news_icon.svg',
+      label: 'Новости',
+      route: RouteConstants.news),
+  NavItem(
+      icon: 'assets/images/logistic_icon.svg',
+      label: 'Логистика',
+      route: RouteConstants.logistic),
+  NavItem(
+      icon: 'assets/images/profile_icon.svg',
+      label: 'Профиль',
+      route: RouteConstants.profile),
 ];
