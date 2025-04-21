@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
-import 'package:tes_test_app/core/widgets/blue_button.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/core/widgets/blue_button.dart';
 
 class ChapterCard extends StatelessWidget {
   final String title;
@@ -9,11 +9,11 @@ class ChapterCard extends StatelessWidget {
   final VoidCallback onButtonPressed;
 
   const ChapterCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.imagePath,
     required this.onButtonPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class ChapterCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withAlpha(25),
             blurRadius: 10.0,
             offset: const Offset(0, 4),
           ),
@@ -47,7 +47,7 @@ class ChapterCard extends StatelessWidget {
             style: AppTheme.displayMedium,
           ),
           Spacer(),
-          BlueButton(text: 'Посмотреть', onPressed: () {})
+          BlueButton(text: 'Посмотреть', onPressed: onButtonPressed)
         ],
       ),
     );

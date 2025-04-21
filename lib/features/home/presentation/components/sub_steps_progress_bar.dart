@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
 
 class SubStepsProgressBar extends StatelessWidget {
   final int totalSubSteps; // Всего шагов (например, 3)

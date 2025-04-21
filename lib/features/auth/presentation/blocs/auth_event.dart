@@ -53,3 +53,8 @@ class ContinueAsGuest extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+
+class LoginAsGuest extends AuthEvent {
+  @override
+  List<Object?> get props => [];
+}

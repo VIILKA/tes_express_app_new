@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
-import 'package:tes_test_app/core/widgets/blue_button.dart';
-import 'package:tes_test_app/features/home/presentation/components/big_step_item.dart';
-import 'package:tes_test_app/features/home/presentation/components/sub_steps_progress_bar.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/core/widgets/blue_button.dart';
+import 'package:tes_express_app_new/features/home/presentation/components/big_step_item.dart';
+import 'package:tes_express_app_new/features/home/presentation/components/sub_steps_progress_bar.dart';
 
 class CarStatusCard extends StatelessWidget {
   const CarStatusCard({super.key});

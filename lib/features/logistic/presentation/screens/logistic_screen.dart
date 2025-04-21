@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
-import 'package:tes_test_app/features/logistic/presentation/components/car_details_card.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/features/logistic/presentation/components/car_details_card.dart';
 
 class LogisticPage extends StatefulWidget {
   const LogisticPage({super.key});

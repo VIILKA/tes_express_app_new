@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
-import 'package:tes_test_app/features/home/presentation/components/available_car.dart';
-import 'package:tes_test_app/core/widgets/circular_avatar.dart';
-import 'package:tes_test_app/features/home/presentation/components/background_with_blinking_dot.dart';
-import 'package:tes_test_app/features/home/presentation/components/car_card_widget.dart';
-import 'package:tes_test_app/features/home/presentation/components/car_selection_card.dart';
-import 'package:tes_test_app/features/home/presentation/components/car_status_card_widget.dart';
-import 'package:tes_test_app/features/home/presentation/components/news_card.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/features/home/presentation/components/available_car.dart';
+import 'package:tes_express_app_new/core/widgets/circular_avatar.dart';
+import 'package:tes_express_app_new/features/home/presentation/components/background_with_blinking_dot.dart';
+import 'package:tes_express_app_new/features/home/presentation/components/car_card_widget.dart';
+import 'package:tes_express_app_new/features/home/presentation/components/car_selection_card.dart';
+import 'package:tes_express_app_new/features/home/presentation/components/car_status_card_widget.dart';
+import 'package:tes_express_app_new/features/home/presentation/components/news_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

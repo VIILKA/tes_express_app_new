@@ -1,5 +1,5 @@
-import 'package:tes_test_app/features/logistic/domain/repositories/logistic_repository.dart';
-import 'package:tes_test_app/features/logistic/data/data_sources/logistic_data_source.dart';
+import 'package:tes_express_app_new/features/logistic/domain/repositories/logistic_repository.dart';
+import 'package:tes_express_app_new/features/logistic/data/data_sources/logistic_data_source.dart';
 
 /// LogisticRepositoryImpl is the concrete implementation of the LogisticRepository
 /// interface.

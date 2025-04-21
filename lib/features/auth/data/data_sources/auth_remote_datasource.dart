@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:tes_test_app/features/auth/domain/entities/user_login.dart';
-import 'package:tes_test_app/features/auth/domain/entities/user_register.dart';
+import 'package:tes_express_app_new/features/auth/domain/entities/user_login.dart';
+import 'package:tes_express_app_new/features/auth/domain/entities/user_register.dart';
 
 abstract class AuthRemoteDataSource {
   Future<bool> registerUser(UserRegister userRegister);

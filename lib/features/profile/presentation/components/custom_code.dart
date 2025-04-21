@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
 
 class CustomCodeWidget extends StatelessWidget {
   final String code;
   final String description;
 
   const CustomCodeWidget({
-    Key? key,
+    super.key,
     required this.code,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
 
 class StepCard extends StatelessWidget {
   final String title;
@@ -15,14 +15,14 @@ class StepCard extends StatelessWidget {
   final int? delayDays;
 
   const StepCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.description,
     required this.startDate,
     required this.endDate,
     this.delayMessage,
     this.delayDays,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

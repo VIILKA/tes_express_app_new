@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:tes_test_app/core/routes/main_page.dart';
-import 'package:tes_test_app/core/routes/route_constants.dart';
-import 'package:tes_test_app/core/widgets/spash_page.dart';
-import 'package:tes_test_app/features/auth/presentation/blocs/auth_bloc.dart';
-import 'package:tes_test_app/features/auth/presentation/screens/login_page.dart';
-import 'package:tes_test_app/features/auth/presentation/screens/registration_page.dart';
-import 'package:tes_test_app/features/home/presentation/screens/home_screen.dart';
-import 'package:tes_test_app/features/logistic/presentation/screens/logistic_screen.dart';
-import 'package:tes_test_app/features/logistic/presentation/screens/logistic_status_with_map.dart';
-import 'package:tes_test_app/features/market/presentation/screens/market_screen.dart';
-import 'package:tes_test_app/features/news/presentation/screens/news_screen.dart';
-import 'package:tes_test_app/features/profile/presentation/screens/car_details_and_status.dart';
-import 'package:tes_test_app/features/profile/presentation/screens/not_registered_user_page.dart';
-import 'package:tes_test_app/features/profile/presentation/screens/profile_screen.dart';
-import 'package:tes_test_app/features/profile/presentation/screens/statuses_steps.dart';
+import 'package:tes_express_app_new/core/routes/main_page.dart';
+import 'package:tes_express_app_new/core/routes/route_constants.dart';
+import 'package:tes_express_app_new/core/widgets/spash_page.dart';
+import 'package:tes_express_app_new/features/auth/presentation/blocs/auth_bloc.dart';
+import 'package:tes_express_app_new/features/auth/presentation/screens/login_page.dart';
+import 'package:tes_express_app_new/features/auth/presentation/screens/registration_page.dart';
+import 'package:tes_express_app_new/features/home/presentation/screens/home_screen.dart';
+import 'package:tes_express_app_new/features/logistic/presentation/screens/logistic_screen.dart';
+import 'package:tes_express_app_new/features/logistic/presentation/screens/logistic_status_with_map.dart';
+import 'package:tes_express_app_new/features/market/presentation/screens/market_screen.dart';
+import 'package:tes_express_app_new/features/market/presentation/screens/cars_screen.dart';
+import 'package:tes_express_app_new/features/market/presentation/screens/car_details_screen.dart';
+import 'package:tes_express_app_new/features/news/presentation/screens/news_screen.dart';
+import 'package:tes_express_app_new/features/profile/presentation/screens/car_details_and_status.dart';
+import 'package:tes_express_app_new/features/profile/presentation/screens/not_registered_user_page.dart';
+import 'package:tes_express_app_new/features/profile/presentation/screens/profile_screen.dart';
+import 'package:tes_express_app_new/features/profile/presentation/screens/statuses_steps.dart';
 
 class AppRouter {
   static const _defaultTransitionDuration = Duration(milliseconds: 100);
@@ -113,6 +115,25 @@ class AppRouter {
               key: state.pageKey,
               child: const MarketPage(),
             ),
+            routes: [
+              GoRoute(
+                path: RouteConstants.cars,
+                builder: (context, state) => const CarsScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    builder: (context, state) {
+                      final params = state.extra as Map<String, String>;
+                      return CarDetailsScreen(
+                        carId: params['carId']!,
+                        carName: params['carName']!,
+                        description: params['description']!,
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
           GoRoute(
             path: RouteConstants.news,

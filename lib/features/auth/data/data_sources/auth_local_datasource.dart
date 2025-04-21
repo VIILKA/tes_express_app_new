@@ -4,7 +4,8 @@ class AuthLocalDataSource {
   // Keys for storing authentication state
   static const _isLoggedInKey = 'is_logged_in';
   static const _isGuestModeKey = 'is_guest_mode';
-  static const String _tokenKey = 'auth_token';
+  static const _usernameKey = 'username';
+  static const _passwordKey = 'password';
 
   final FlutterSecureStorage secureStorage;
 
@@ -61,35 +62,31 @@ class AuthLocalDataSource {
     }
   }
 
-  Future<void> saveToken(String token) async {
-    try {
-      await secureStorage.write(key: _tokenKey, value: token);
-    } catch (e) {
-      // Handle error if needed
-      rethrow;
-    }
-  }
-
-  Future<String?> getToken() async {
-    try {
-      return await secureStorage.read(key: _tokenKey);
-    } catch (e) {
-      // Handle error if needed
-      return null;
-    }
-  }
-
   Future<void> clearAllData() async {
     try {
       // Clear all authentication data
       await secureStorage.delete(key: _isLoggedInKey);
       await secureStorage.delete(key: _isGuestModeKey);
-      await secureStorage.delete(key: _tokenKey);
-      // Alternative: clear everything
-      // await secureStorage.deleteAll();
+      await secureStorage.delete(key: _usernameKey);
+      await secureStorage.delete(key: _passwordKey);
     } catch (e) {
       // Handle error if needed
       rethrow;
     }
+  }
+
+  // Новые методы для работы с credentials
+  Future<void> saveCredentials(String username, String password) async {
+    await secureStorage.write(key: _usernameKey, value: username);
+    await secureStorage.write(key: _passwordKey, value: password);
+  }
+
+  Future<Map<String, String?>> getCredentials() async {
+    final username = await secureStorage.read(key: _usernameKey);
+    final password = await secureStorage.read(key: _passwordKey);
+    return {
+      'username': username,
+      'password': password,
+    };
   }
 }

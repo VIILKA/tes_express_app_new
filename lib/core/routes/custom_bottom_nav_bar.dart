@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tes_test_app/core/routes/route_constants.dart';
-import 'package:tes_test_app/features/auth/presentation/blocs/auth_bloc.dart';
+import 'package:tes_express_app_new/core/routes/route_constants.dart';
+import 'package:tes_express_app_new/features/auth/presentation/blocs/auth_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomBottomNavBar extends StatelessWidget {

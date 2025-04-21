@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
-import 'package:tes_test_app/core/widgets/blue_button.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/core/widgets/blue_button.dart';
 
 class BackgroundWithBlinkingDot extends StatelessWidget {
+  const BackgroundWithBlinkingDot({super.key});
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -88,10 +90,10 @@ class BlinkingDot extends StatefulWidget {
   final Color color;
 
   const BlinkingDot({
-    Key? key,
+    super.key,
     this.size = 30.0,
     this.color = Colors.orange,
-  }) : super(key: key);
+  });
 
   @override
   _BlinkingDotState createState() => _BlinkingDotState();

@@ -4,17 +4,17 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart'; // если нужен адаптивный размер
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
-import 'package:tes_test_app/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
 
 class MapWithMarker extends StatefulWidget {
   final double latitude;
   final double longitude;
 
   const MapWithMarker({
-    Key? key,
+    super.key,
     required this.latitude,
     required this.longitude,
-  }) : super(key: key);
+  });
 
   @override
   _MapWithMarkerState createState() => _MapWithMarkerState();

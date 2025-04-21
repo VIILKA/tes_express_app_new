@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
-import 'package:tes_test_app/core/widgets/circular_avatar.dart';
-import 'package:tes_test_app/core/widgets/share_card.dart';
-import 'package:tes_test_app/core/widgets/steps_card.dart';
-import 'package:tes_test_app/features/logistic/presentation/components/map_with_marker.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/core/widgets/circular_avatar.dart';
+import 'package:tes_express_app_new/core/widgets/share_card.dart';
+import 'package:tes_express_app_new/core/widgets/steps_card.dart';
+import 'package:tes_express_app_new/features/logistic/presentation/components/map_with_marker.dart';
 
 class LogisticStatusWithMap extends StatefulWidget {
   const LogisticStatusWithMap({super.key});

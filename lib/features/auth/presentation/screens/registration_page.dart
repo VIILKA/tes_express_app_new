@@ -4,9 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
-import 'package:tes_test_app/features/auth/presentation/blocs/auth_bloc.dart';
-import 'package:tes_test_app/core/routes/route_constants.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/features/auth/presentation/blocs/auth_bloc.dart';
+import 'package:tes_express_app_new/core/routes/route_constants.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});

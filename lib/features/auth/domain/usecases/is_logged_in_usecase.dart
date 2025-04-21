@@ -1,4 +1,4 @@
-import 'package:tes_test_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:tes_express_app_new/features/auth/domain/repositories/auth_repository.dart';
 
 enum AuthStatus {
   authenticated,

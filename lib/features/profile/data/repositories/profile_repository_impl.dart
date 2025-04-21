@@ -1,5 +1,5 @@
-import 'package:tes_test_app/features/profile/domain/repositories/profile_repository.dart';
-import 'package:tes_test_app/features/profile/data/data_sources/profile_data_source.dart';
+import 'package:tes_express_app_new/features/profile/domain/repositories/profile_repository.dart';
+import 'package:tes_express_app_new/features/profile/data/data_sources/profile_data_source.dart';
 
 /// ProfileRepositoryImpl is the concrete implementation of the ProfileRepository
 /// interface.

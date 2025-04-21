@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
-import 'package:tes_test_app/core/widgets/blue_button.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/core/widgets/blue_button.dart';
 
 class CarCardWidget extends StatelessWidget {
   final String imagePath;
@@ -9,12 +9,12 @@ class CarCardWidget extends StatelessWidget {
   final VoidCallback onButtonPressed;
 
   const CarCardWidget({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.title,
     required this.price,
     required this.onButtonPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

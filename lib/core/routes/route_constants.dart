@@ -14,6 +14,10 @@ class RouteConstants {
   static const String profile = '/profile';
   static const String notRegisteredUser = '/not_registered_user';
 
+  // Маршруты маркета
+  static const String cars = 'cars';
+  static const String carDetails = 'car_details';
+
   // Маршруты логистики
   static const String logisticDetails = 'logistic_details';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
 
 class CarSpecsCard extends StatelessWidget {
-  const CarSpecsCard({Key? key}) : super(key: key);
+  const CarSpecsCard({super.key});
 
   @override
   Widget build(BuildContext context) {

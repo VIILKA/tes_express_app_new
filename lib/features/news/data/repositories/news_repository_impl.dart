@@ -1,5 +1,5 @@
-import 'package:tes_test_app/features/news/domain/repositories/news_repository.dart';
-import 'package:tes_test_app/features/news/data/data_sources/news_data_source.dart';
+import 'package:tes_express_app_new/features/news/domain/repositories/news_repository.dart';
+import 'package:tes_express_app_new/features/news/data/data_sources/news_data_source.dart';
 
 /// NewsRepositoryImpl is the concrete implementation of the NewsRepository
 /// interface.

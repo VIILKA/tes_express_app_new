@@ -1,8 +1,8 @@
-import 'package:tes_test_app/features/auth/data/data_sources/auth_local_datasource.dart';
-import 'package:tes_test_app/features/auth/data/data_sources/auth_remote_datasource.dart';
-import 'package:tes_test_app/features/auth/domain/entities/user_login.dart';
-import 'package:tes_test_app/features/auth/domain/entities/user_register.dart';
-import 'package:tes_test_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:tes_express_app_new/features/auth/data/data_sources/auth_local_datasource.dart';
+import 'package:tes_express_app_new/features/auth/data/data_sources/auth_remote_datasource.dart';
+import 'package:tes_express_app_new/features/auth/domain/entities/user_login.dart';
+import 'package:tes_express_app_new/features/auth/domain/entities/user_register.dart';
+import 'package:tes_express_app_new/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthLocalDataSource localDataSource;
@@ -16,6 +16,8 @@ class AuthRepositoryImpl implements AuthRepository {
       final success = await remoteDataSource.registerUser(userRegister);
       if (success) {
         await localDataSource.setIsLoggedIn(true);
+        await localDataSource.saveCredentials(
+            userRegister.login, userRegister.password);
         return AuthResult(success: true);
       }
       return AuthResult(success: false, error: 'Не удалось зарегистрироваться');
@@ -32,6 +34,8 @@ class AuthRepositoryImpl implements AuthRepository {
       final success = await remoteDataSource.loginUser(userLogin);
       if (success) {
         await localDataSource.setIsLoggedIn(true);
+        await localDataSource.saveCredentials(
+            userLogin.login, userLogin.password);
         return AuthResult(success: true);
       }
       return AuthResult(success: false, error: 'Не удалось войти в систему');
@@ -52,13 +56,13 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> setGuestMode(bool value) => localDataSource.setGuestMode(value);
 
   @override
-  Future<void> logout() {
-    return localDataSource.setIsLoggedIn(false);
+  Future<void> logout() async {
+    await localDataSource.clearAllData();
   }
 
   @override
-  Future<void> saveToken(String token) async {
-    await localDataSource.saveToken(token);
+  Future<void> setIsLoggedIn(bool value) async {
+    await localDataSource.setIsLoggedIn(value);
   }
 
   @override

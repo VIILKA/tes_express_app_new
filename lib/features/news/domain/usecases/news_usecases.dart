@@ -1,4 +1,4 @@
-import 'package:tes_test_app/features/news/domain/repositories/news_repository.dart';
+import 'package:tes_express_app_new/features/news/domain/repositories/news_repository.dart';
 
 /// use case is a class responsible for encapsulating a specific piece of business logic or
 /// a particular operation that your application needs to perform.

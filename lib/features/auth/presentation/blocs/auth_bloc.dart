@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tes_test_app/features/auth/domain/entities/user_login.dart';
-import 'package:tes_test_app/features/auth/domain/entities/user_register.dart';
-import 'package:tes_test_app/features/auth/domain/usecases/is_logged_in_usecase.dart';
-import 'package:tes_test_app/features/auth/domain/usecases/login_usecase.dart';
-import 'package:tes_test_app/features/auth/domain/usecases/register_usecase.dart';
-import 'package:tes_test_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:tes_express_app_new/features/auth/domain/entities/user_login.dart';
+import 'package:tes_express_app_new/features/auth/domain/entities/user_register.dart';
+import 'package:tes_express_app_new/features/auth/domain/usecases/is_logged_in_usecase.dart';
+import 'package:tes_express_app_new/features/auth/domain/usecases/login_usecase.dart';
+import 'package:tes_express_app_new/features/auth/domain/usecases/register_usecase.dart';
+import 'package:tes_express_app_new/features/auth/domain/repositories/auth_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -28,6 +28,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<Logout>(_onLogout);
     on<Register>(_onRegister);
     on<ContinueAsGuest>(_onContinueAsGuest);
+    on<LoginAsGuest>(_onLoginAsGuest);
   }
 
   static AuthState _mapAuthStatusToState(AuthStatus status) {
@@ -69,7 +70,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     // Admin login check
     if (event.login == 'admin' && event.password == 'admin') {
-      await authRepository.saveToken('admin_token');
+      await authRepository.setIsLoggedIn(true);
       emit(AuthLoggedIn(isAdmin: true));
       return;
     }
@@ -125,5 +126,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     await authRepository.setGuestMode(true);
     emit(AuthGuest());
+  }
+
+  Future<void> _onLoginAsGuest(
+    LoginAsGuest event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      emit(AuthLoading());
+      await authRepository.setIsLoggedIn(true);
+      await authRepository.setGuestMode(true);
+      emit(AuthGuest());
+    } catch (e) {
+      emit(AuthError("Ошибка при входе как гость"));
+      emit(AuthLoggedOut());
+    }
   }
 }

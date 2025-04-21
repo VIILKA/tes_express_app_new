@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
-import 'package:tes_test_app/features/news/presentation/components/news_block_card.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/features/news/presentation/components/news_block_card.dart';
 
 class NewsPage extends StatefulWidget {
   const NewsPage({super.key});

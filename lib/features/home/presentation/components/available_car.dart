@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
-import 'package:tes_test_app/core/widgets/blue_button.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/core/widgets/blue_button.dart';
 
 class AvailableCar extends StatelessWidget {
   final VoidCallback onButtonPressed;
@@ -77,8 +77,7 @@ class InfoRow extends StatelessWidget {
   final IconData icon;
   final String text;
 
-  const InfoRow({Key? key, required this.icon, required this.text})
-      : super(key: key);
+  const InfoRow({super.key, required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {

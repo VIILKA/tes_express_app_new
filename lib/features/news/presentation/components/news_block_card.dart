@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tes_test_app/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/core/styles/app_theme.dart';
 
 class NewsBlockCard extends StatelessWidget {
   final String imagePath;
@@ -10,13 +10,13 @@ class NewsBlockCard extends StatelessWidget {
   final VoidCallback onButtonPressed;
 
   const NewsBlockCard({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.title,
     required this.onButtonPressed,
     required this.date,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
