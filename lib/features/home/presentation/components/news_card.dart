@@ -57,7 +57,6 @@ class NewsCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                BlueButton(text: 'Перейти', onPressed: () {})
               ],
             ),
           ),

@@ -24,6 +24,7 @@ class RouteConstants {
   // Маршруты профиля
   static const String carDetailsStatus = 'car_details_status';
   static const String stepsStatuses = 'steps_statuses';
+  static const String orderHistory = 'order_history';
 
   // Пример проверки для гостя
   static bool isGuestRestrictedRoute(String route) {

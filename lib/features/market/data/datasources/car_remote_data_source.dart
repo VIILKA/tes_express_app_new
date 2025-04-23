@@ -59,7 +59,7 @@ class CarRemoteDataSourceImpl implements CarRemoteDataSource {
       }
     } catch (e) {
       developer.log('Исключение при загрузке автомобилей', error: e);
-      throw Exception('Ошибка при загрузке автомобилей: $e');
+      rethrow;
     }
   }
 
@@ -117,7 +117,7 @@ class CarRemoteDataSourceImpl implements CarRemoteDataSource {
     } catch (e) {
       developer.log('Исключение при загрузке отфильтрованных автомобилей',
           error: e);
-      throw Exception('Ошибка при загрузке отфильтрованных автомобилей: $e');
+      rethrow;
     }
   }
 }

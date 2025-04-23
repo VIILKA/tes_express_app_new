@@ -75,6 +75,60 @@ class _CarsScreenState extends State<CarsScreen> {
               );
             }
 
+            if (state is CarUnauthorizedError) {
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.access_time_rounded,
+                        size: 64.sp,
+                        color: AppTheme.main,
+                      ),
+                      SizedBox(height: 16.h),
+                      Text(
+                        'Ожидается подтверждение',
+                        style: AppTheme.displayMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 8.h),
+                      Text(
+                        state.message,
+                        style: AppTheme.bodyMedium500
+                            .copyWith(color: AppTheme.greyText),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 24.h),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 54.h,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            context.read<CarBloc>().add(GetCarsEvent());
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.main,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                          child: Text(
+                            'Обновить',
+                            style: AppTheme.bodyMedium.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+
             if (state is CarLoaded) {
               if (state.cars.isEmpty) {
                 return const Center(
@@ -115,7 +169,6 @@ class _CarsScreenState extends State<CarsScreen> {
                                 extra: {
                                   'carId': carId,
                                   'carName': carName,
-                                  
                                   'description': description,
                                 },
                               );

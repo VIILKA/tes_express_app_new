@@ -47,7 +47,7 @@ class ShareCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 16.0),
                 BlueButton(
-                  text: 'Посмотреть',
+                  text: 'Поделиться',
                   onPressed: onButtonPressed,
                 ),
               ],

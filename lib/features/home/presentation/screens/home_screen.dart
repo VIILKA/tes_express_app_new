@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tes_express_app_new/core/routes/route_constants.dart';
 import 'package:tes_express_app_new/core/styles/app_theme.dart';
 import 'package:tes_express_app_new/features/home/presentation/components/available_car.dart';
 import 'package:tes_express_app_new/core/widgets/circular_avatar.dart';
@@ -7,6 +9,7 @@ import 'package:tes_express_app_new/features/home/presentation/components/car_ca
 import 'package:tes_express_app_new/features/home/presentation/components/car_selection_card.dart';
 import 'package:tes_express_app_new/features/home/presentation/components/car_status_card_widget.dart';
 import 'package:tes_express_app_new/features/home/presentation/components/news_card.dart';
+import 'package:tes_express_app_new/core/routes/main_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -101,7 +104,10 @@ class _HomePageState extends State<HomePage> {
                     height: 20,
                   ),
                   AvailableCar(
-                    onButtonPressed: () {},
+                    onButtonPressed: () {
+                      MainPage.navigateTo(context, RouteConstants.market,
+                          subRoute: RouteConstants.cars);
+                    },
                   ),
                   SizedBox(
                     height: 16,
@@ -208,7 +214,8 @@ class _HomePageState extends State<HomePage> {
               imagePath:
                   'assets/images/Frame48096169.png', // Замените на путь к вашему изображению
               onButtonPressed: () {
-                print('Нажата кнопка "Подобрать"');
+                MainPage.navigateTo(context, RouteConstants.market,
+                    subRoute: RouteConstants.cars);
               },
             ),
             SizedBox(

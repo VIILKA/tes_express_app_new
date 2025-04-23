@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tes_express_app_new/core/routes/main_page.dart';
+import 'package:tes_express_app_new/core/routes/route_constants.dart';
 import 'package:tes_express_app_new/core/styles/app_theme.dart';
 import 'package:tes_express_app_new/core/widgets/blue_button.dart';
 import 'package:tes_express_app_new/features/home/presentation/components/big_step_item.dart';
@@ -84,7 +86,14 @@ class CarStatusCard extends StatelessWidget {
           SizedBox(
             height: 340,
           ),
-          BlueButton(text: 'Подробнее', onPressed: () {})
+          BlueButton(
+            text: 'Подробнее',
+            onPressed: () {
+              // Используем статический метод для навигации и переключения вкладки
+              MainPage.navigateTo(context, RouteConstants.logistic,
+                  subRoute: RouteConstants.logisticDetails);
+            },
+          )
         ],
       ),
     );

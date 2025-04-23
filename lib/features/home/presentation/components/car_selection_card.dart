@@ -54,7 +54,7 @@ class CarSelectionCard extends StatelessWidget {
                   style: AppTheme.bodySmall.copyWith(color: AppTheme.greyText),
                 ),
                 Spacer(),
-                BlueButton(text: 'Подобрать', onPressed: () {})
+                BlueButton(text: 'Подобрать', onPressed: onButtonPressed)
               ],
             ),
           ),

@@ -67,7 +67,6 @@ class BackgroundWithBlinkingDot extends StatelessWidget {
                 ],
               ),
               Spacer(),
-              BlueButton(text: 'Просмотреть', onPressed: () {})
             ],
           ),
           // Мигающая точка

@@ -19,6 +19,7 @@ import 'package:tes_express_app_new/features/profile/presentation/screens/car_de
 import 'package:tes_express_app_new/features/profile/presentation/screens/not_registered_user_page.dart';
 import 'package:tes_express_app_new/features/profile/presentation/screens/profile_screen.dart';
 import 'package:tes_express_app_new/features/profile/presentation/screens/statuses_steps.dart';
+import 'package:tes_express_app_new/features/profile/presentation/screens/order_history_screen.dart';
 
 class AppRouter {
   static const _defaultTransitionDuration = Duration(milliseconds: 100);
@@ -91,7 +92,7 @@ class AppRouter {
       ShellRoute(
         pageBuilder: (context, state, child) => _buildTransitionPage(
           key: state.pageKey,
-          child: MainPage(child: child),
+          child: MainPage(key: MainPage.mainPageKey, child: child),
           transitionsBuilder: _slideTransition,
         ),
         routes: [
@@ -169,7 +170,17 @@ class AppRouter {
                 path: RouteConstants.carDetailsStatus,
                 pageBuilder: (context, state) => _buildTransitionPage(
                   key: state.pageKey,
-                  child: CarDetailsAndStatus(),
+                  child: CarDetailsAndStatus(
+                    title: state.extra != null
+                        ? (state.extra as Map<String, String>)['title']!
+                        : 'Lixiang L7 Pro',
+                    vinCode: state.extra != null
+                        ? (state.extra as Map<String, String>)['vinCode']!
+                        : 'HLX781788912311840',
+                    imagePath: state.extra != null
+                        ? (state.extra as Map<String, String>)['imagePath']!
+                        : 'assets/images/lixiang_l7.png',
+                  ),
                 ),
                 routes: [
                   GoRoute(
@@ -180,6 +191,13 @@ class AppRouter {
                     ),
                   ),
                 ],
+              ),
+              GoRoute(
+                path: RouteConstants.orderHistory,
+                pageBuilder: (context, state) => _buildTransitionPage(
+                  key: state.pageKey,
+                  child: const OrderHistoryScreen(),
+                ),
               ),
             ],
           ),

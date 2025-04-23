@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tes_express_app_new/features/auth/domain/entities/user_data.dart';
 import 'package:tes_express_app_new/features/auth/domain/entities/user_login.dart';
 import 'package:tes_express_app_new/features/auth/domain/entities/user_register.dart';
 import 'package:tes_express_app_new/features/auth/domain/usecases/is_logged_in_usecase.dart';
@@ -50,7 +51,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       switch (status) {
         case AuthStatus.authenticated:
-          emit(AuthLoggedIn());
+          // Пытаемся загрузить данные пользователя
+          final userData = await authRepository.getUserData();
+          emit(AuthLoggedIn(userData: userData));
           break;
         case AuthStatus.guest:
           emit(AuthGuest());
@@ -80,9 +83,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await loginUseCase(userLogin);
 
     if (result.success) {
-      emit(AuthLoggedIn());
+      emit(AuthLoggedIn(userData: result.userData));
     } else {
-      emit(AuthError("Не удалось авторизоваться"));
+      emit(AuthError(result.error ?? "Не удалось авторизоваться"));
       emit(AuthLoggedOut());
     }
   }
@@ -114,7 +117,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await registerUseCase(userRegister);
 
     if (result.success) {
-      emit(AuthLoggedIn());
+      emit(AuthLoggedIn(userData: result.userData));
     } else {
       emit(AuthError(result.error ?? "Не удалось зарегистрироваться"));
       emit(AuthLoggedOut());

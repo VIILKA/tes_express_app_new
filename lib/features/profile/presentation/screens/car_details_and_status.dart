@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tes_express_app_new/core/styles/app_theme.dart';
 import 'package:tes_express_app_new/core/widgets/share_card.dart';
 import 'package:tes_express_app_new/core/widgets/statuses_card.dart';
@@ -8,7 +9,16 @@ import 'package:tes_express_app_new/features/profile/presentation/components/car
 import 'package:tes_express_app_new/features/profile/presentation/components/logistics_card.dart';
 
 class CarDetailsAndStatus extends StatelessWidget {
-  const CarDetailsAndStatus({super.key});
+  final String title;
+  final String vinCode;
+  final String imagePath;
+
+  const CarDetailsAndStatus({
+    super.key,
+    required this.title,
+    required this.vinCode,
+    required this.imagePath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,32 +33,22 @@ class CarDetailsAndStatus extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Lixiang L7 Pro',
+                    title,
                     style: AppTheme.displayLarge,
                   ),
                   Text(
-                    'VIN CODE: HLX781788912311840',
+                    'VIN CODE: $vinCode',
                     style: AppTheme.bodySmall.copyWith(
                       color: AppTheme.greyText,
                     ),
                   ),
                   ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image.asset('assets/images/lixiang_l7.png')),
+                      child: Image.asset(imagePath)),
                 ],
               ),
             ),
             CarSpecsCard(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: LogisticsCard(
-                title: 'Логистика',
-                buttonText: 'Посмотреть',
-                onButtonPressed: () {
-                  print('Кнопка "Посмотреть" нажата');
-                },
-              ),
-            ),
             SizedBox(
               height: 15.h,
             ),
@@ -67,12 +67,24 @@ class CarDetailsAndStatus extends StatelessWidget {
               description:
                   'Сейчас мы едем до вашего пункта назначения, готовьтесь получать',
               onButtonPressed: () {
-                print('Кнопка "Посмотреть" нажата');
+                _shareCarDetails();
               },
             ),
           ],
         ),
       )),
     );
+  }
+
+  void _shareCarDetails() {
+    final String shareText =
+        'Автомобиль: $title\nVIN код: $vinCode\nПроверьте этот автомобиль в приложении TES Express!';
+
+    final params = ShareParams(
+      text: shareText,
+      subject: 'Информация об автомобиле $title',
+    );
+
+    SharePlus.instance.share(params);
   }
 }

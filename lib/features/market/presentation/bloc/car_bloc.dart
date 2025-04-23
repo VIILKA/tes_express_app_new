@@ -1,4 +1,5 @@
 import 'dart:developer' as developer;
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tes_express_app_new/features/market/domain/entities/car.dart';
@@ -59,6 +60,16 @@ class CarError extends CarState {
   List<Object?> get props => [message];
 }
 
+/// Состояние ошибки неподтвержденного аккаунта
+class CarUnauthorizedError extends CarState {
+  final String message;
+
+  const CarUnauthorizedError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
 /// BLoC для управления состоянием автомобилей
 class CarBloc extends Bloc<CarEvent, CarState> {
   final CarRepository carRepository;
@@ -87,8 +98,15 @@ class CarBloc extends Bloc<CarEvent, CarState> {
       }
     } catch (e) {
       developer.log('CarBloc: Ошибка загрузки', error: e);
-      emit(
-          CarError('Не удалось загрузить список автомобилей: ${e.toString()}'));
+
+      // Проверяем, является ли ошибка ошибкой неавторизованного доступа (401)
+      if (e is DioException && e.response?.statusCode == 401) {
+        emit(CarUnauthorizedError(
+            'Ваш аккаунт ещё не подтвержден модераторами. Пожалуйста, дождитесь подтверждения и попробуйте позже.'));
+      } else {
+        emit(CarError(
+            'Не удалось загрузить список автомобилей: ${e.toString()}'));
+      }
     }
   }
 

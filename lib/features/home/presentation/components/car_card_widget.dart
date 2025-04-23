@@ -61,7 +61,6 @@ class CarCardWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                BlueButton(text: 'Перейти', onPressed: () {})
               ],
             ),
           ),

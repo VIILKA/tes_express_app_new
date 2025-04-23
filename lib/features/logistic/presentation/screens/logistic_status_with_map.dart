@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tes_express_app_new/core/styles/app_theme.dart';
 import 'package:tes_express_app_new/core/widgets/circular_avatar.dart';
 import 'package:tes_express_app_new/core/widgets/share_card.dart';
@@ -97,7 +98,7 @@ class _LogisticStatusWithMapState extends State<LogisticStatusWithMap> {
               description:
                   'Сейчас мы едем до вашего пункта назначения, готовьтесь получать',
               onButtonPressed: () {
-                print('Кнопка "Посмотреть" нажата');
+                _shareLogisticInfo();
               },
             ),
             SizedBox(
@@ -107,5 +108,17 @@ class _LogisticStatusWithMapState extends State<LogisticStatusWithMap> {
         ),
       )),
     );
+  }
+
+  void _shareLogisticInfo() {
+    final String shareText =
+        'Автомобиль: Lixiang L7 Pro\nVIN код: HLX8787234\nСтатус: В пути\nРасчетное время прибытия: 16.01.2025\nСледите за перемещением в приложении TES Express!';
+
+    final params = ShareParams(
+      text: shareText,
+      subject: 'Информация о перемещении Lixiang L7 Pro',
+    );
+
+    SharePlus.instance.share(params);
   }
 }

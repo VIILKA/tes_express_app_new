@@ -4,15 +4,16 @@ import 'package:tes_express_app_new/core/widgets/blue_button.dart';
 
 class ChapterCard extends StatelessWidget {
   final String title;
-
   final String imagePath;
   final VoidCallback onButtonPressed;
+  final String buttonText;
 
   const ChapterCard({
     super.key,
     required this.title,
     required this.imagePath,
     required this.onButtonPressed,
+    this.buttonText = 'Посмотреть',
   });
 
   @override
@@ -47,7 +48,7 @@ class ChapterCard extends StatelessWidget {
             style: AppTheme.displayMedium,
           ),
           Spacer(),
-          BlueButton(text: 'Посмотреть', onPressed: onButtonPressed)
+          BlueButton(text: buttonText, onPressed: onButtonPressed)
         ],
       ),
     );

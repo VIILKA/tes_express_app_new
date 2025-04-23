@@ -2,12 +2,16 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:tes_express_app_new/features/auth/domain/entities/user_data.dart';
 import 'package:tes_express_app_new/features/auth/domain/entities/user_login.dart';
 import 'package:tes_express_app_new/features/auth/domain/entities/user_register.dart';
 
 abstract class AuthRemoteDataSource {
+  /// Регистрирует пользователя и возвращает true при успешной регистрации
   Future<bool> registerUser(UserRegister userRegister);
-  Future<bool> loginUser(UserLogin userLogin);
+
+  /// Выполняет вход и возвращает данные пользователя
+  Future<UserData> loginUser(UserLogin userLogin);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -60,7 +64,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<bool> loginUser(UserLogin userLogin) async {
+  Future<UserData> loginUser(UserLogin userLogin) async {
     final url = Uri.parse('$baseUrl/api/v1/auth/login');
 
     final body = {
@@ -81,7 +85,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           .timeout(timeout);
 
       if (response.statusCode == 200) {
-        return true;
+        // Парсим данные пользователя из ответа
+        final Map<String, dynamic> jsonData = jsonDecode(response.body);
+        return UserData.fromJson(jsonData);
       } else {
         throw ServerException('Ошибка сервера: ${response.statusCode}');
       }
@@ -90,7 +96,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     } on SocketException {
       throw ServerException('Отсутствует подключение к интернету');
     } catch (e) {
-      throw ServerException('Произошла ошибка при входе');
+      throw ServerException('Произошла ошибка при входе: $e');
     }
   }
 }

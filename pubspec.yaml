@@ -1,7 +1,7 @@
 name: tes_express_app_new
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.0.3+1
+version: 1.0.4+1
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -23,6 +23,7 @@ dependencies:
   flutter_svg: ^2.0.9
   url_launcher: ^6.3.1
   dio: ^5.8.0+1
+  share_plus: ^11.0.0
 
 
 dev_dependencies:

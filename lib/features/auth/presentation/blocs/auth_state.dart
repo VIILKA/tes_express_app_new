@@ -15,11 +15,12 @@ class AuthLoading extends AuthState {}
 // Пользователь залогинен
 class AuthLoggedIn extends AuthState {
   final bool isAdmin;
+  final UserData? userData;
 
-  const AuthLoggedIn({this.isAdmin = false});
+  const AuthLoggedIn({this.isAdmin = false, this.userData});
 
   @override
-  List<Object?> get props => [isAdmin];
+  List<Object?> get props => [isAdmin, userData];
 }
 
 // Пользователь разлогинен

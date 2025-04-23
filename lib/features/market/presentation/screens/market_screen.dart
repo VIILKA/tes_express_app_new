@@ -39,6 +39,7 @@ class MarketPage extends StatelessWidget {
                 ChapterCard(
                   title: 'Запчасти',
                   imagePath: 'assets/images/spare_cars.png',
+                  buttonText: 'Скоро',
                   onButtonPressed: () {
                     print('Запчасти button pressed');
                   },
@@ -47,6 +48,7 @@ class MarketPage extends StatelessWidget {
                 ChapterCard(
                   title: 'Акксессуары',
                   imagePath: 'assets/images/accessories.png',
+                  buttonText: 'Скоро',
                   onButtonPressed: () {
                     print('Акксессуары button pressed');
                   },
