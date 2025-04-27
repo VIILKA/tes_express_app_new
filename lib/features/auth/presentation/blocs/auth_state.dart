@@ -35,6 +35,15 @@ class AuthError extends AuthState {
   List<Object?> get props => [message];
 }
 
+// Успешное выполнение операции с сообщением
+class AuthSuccess extends AuthState {
+  final String message;
+  const AuthSuccess(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
 class AuthGuest extends AuthState {
   @override
   List<Object?> get props => [];

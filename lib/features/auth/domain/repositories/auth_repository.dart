@@ -26,4 +26,8 @@ abstract class AuthRepository {
 
   /// Получение данных пользователя
   Future<UserData?> getUserData();
+
+  /// Удаление пользователя по ID
+  /// Получает учетные данные из локального хранилища
+  Future<bool> deleteUser(int userId);
 }

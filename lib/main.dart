@@ -11,6 +11,7 @@ import 'package:tes_express_app_new/core/api/api_service.dart';
 import 'package:tes_express_app_new/features/auth/data/data_sources/auth_local_datasource.dart';
 import 'package:tes_express_app_new/features/auth/data/data_sources/auth_remote_datasource.dart';
 import 'package:tes_express_app_new/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:tes_express_app_new/features/auth/domain/usecases/delete_user_usecase.dart';
 import 'package:tes_express_app_new/features/auth/domain/usecases/is_logged_in_usecase.dart';
 import 'package:tes_express_app_new/features/auth/domain/usecases/login_usecase.dart';
 import 'package:tes_express_app_new/features/auth/domain/usecases/register_usecase.dart';
@@ -30,20 +31,23 @@ Future<void> main() async {
   final storage = FlutterSecureStorage();
   final authLocalDataSource = AuthLocalDataSource(storage);
   final httpClient = http.Client();
-  final authRemoteDataSource = AuthRemoteDataSourceImpl(
-    baseUrl: 'http://5.59.233.108:8081',
-    client: httpClient,
-  );
-  final authRepository = AuthRepositoryImpl(
-    authLocalDataSource,
-    authRemoteDataSource,
-  );
 
   // Инициализация ApiService
   final dio = Dio();
   final apiService = ApiService(
     dio: dio,
     authLocalDataSource: authLocalDataSource,
+  );
+
+  final authRemoteDataSource = AuthRemoteDataSourceImpl(
+    baseUrl: 'http://5.59.233.108:8081',
+    client: httpClient,
+    apiService: apiService,
+  );
+
+  final authRepository = AuthRepositoryImpl(
+    authLocalDataSource,
+    authRemoteDataSource,
   );
 
   // Инициализация зависимостей для CarBloc
@@ -97,11 +101,13 @@ class MainApp extends StatelessWidget {
             final isLoggedInUseCase = IsLoggedInUseCase(authRepository);
             final loginUseCase = LoginUseCase(authRepository);
             final registerUseCase = RegisterUseCase(authRepository);
+            final deleteUserUseCase = DeleteUserUseCase(authRepository);
 
             return AuthBloc(
               isLoggedInUseCase: isLoggedInUseCase,
               loginUseCase: loginUseCase,
               registerUseCase: registerUseCase,
+              deleteUserUseCase: deleteUserUseCase,
               authRepository: authRepository,
               initialStatus: initialAuthStatus,
             );

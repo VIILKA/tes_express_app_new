@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:tes_express_app_new/core/routes/main_page.dart';
 import 'package:tes_express_app_new/core/routes/route_constants.dart';
-import 'package:tes_express_app_new/core/widgets/spash_page.dart';
+import 'package:tes_express_app_new/core/widgets/splash_page.dart';
 import 'package:tes_express_app_new/features/auth/presentation/blocs/auth_bloc.dart';
 import 'package:tes_express_app_new/features/auth/presentation/screens/login_page.dart';
 import 'package:tes_express_app_new/features/auth/presentation/screens/registration_page.dart';

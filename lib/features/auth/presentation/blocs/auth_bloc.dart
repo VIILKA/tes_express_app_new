@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tes_express_app_new/features/auth/domain/entities/user_data.dart';
 import 'package:tes_express_app_new/features/auth/domain/entities/user_login.dart';
 import 'package:tes_express_app_new/features/auth/domain/entities/user_register.dart';
+import 'package:tes_express_app_new/features/auth/domain/usecases/delete_user_usecase.dart';
 import 'package:tes_express_app_new/features/auth/domain/usecases/is_logged_in_usecase.dart';
 import 'package:tes_express_app_new/features/auth/domain/usecases/login_usecase.dart';
 import 'package:tes_express_app_new/features/auth/domain/usecases/register_usecase.dart';
@@ -15,12 +16,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final IsLoggedInUseCase isLoggedInUseCase;
   final LoginUseCase loginUseCase;
   final RegisterUseCase registerUseCase;
+  final DeleteUserUseCase?
+      deleteUserUseCase; // Optional, might not be injected everywhere
   final AuthRepository authRepository;
 
   AuthBloc({
     required this.isLoggedInUseCase,
     required this.loginUseCase,
     required this.registerUseCase,
+    this.deleteUserUseCase,
     required this.authRepository,
     required AuthStatus initialStatus,
   }) : super(_mapAuthStatusToState(initialStatus)) {
@@ -30,6 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<Register>(_onRegister);
     on<ContinueAsGuest>(_onContinueAsGuest);
     on<LoginAsGuest>(_onLoginAsGuest);
+    on<DeleteAccount>(_onDeleteAccount);
   }
 
   static AuthState _mapAuthStatusToState(AuthStatus status) {
@@ -143,6 +148,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       emit(AuthError("Ошибка при входе как гость"));
       emit(AuthLoggedOut());
+    }
+  }
+
+  Future<void> _onDeleteAccount(
+    DeleteAccount event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      emit(AuthLoading());
+
+      if (deleteUserUseCase == null) {
+        emit(AuthError("Функция удаления аккаунта недоступна"));
+        return;
+      }
+
+      final userData = await authRepository.getUserData();
+      if (userData == null) {
+        emit(AuthError("Не удалось получить данные пользователя"));
+        return;
+      }
+
+      final success = await deleteUserUseCase!(userData.id);
+
+      if (success) {
+        emit(AuthSuccess("Ваш аккаунт успешно удален"));
+        emit(AuthLoggedOut());
+      } else {
+        emit(AuthError("Не удалось удалить аккаунт"));
+      }
+    } catch (e) {
+      emit(AuthError("Ошибка при удалении аккаунта: $e"));
     }
   }
 }

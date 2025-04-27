@@ -24,6 +24,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  // Для отображения общей ошибки от сервера
+  String? _serverErrorMessage;
+
   // Добавляем контроллеры для отслеживания ошибок
   final Map<String, String?> _errors = {
     'name': null,
@@ -110,6 +113,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   void _onRegisterPressed() {
+    // Сбрасываем ошибку сервера при новой попытке
+    setState(() {
+      _serverErrorMessage = null;
+    });
+
     // Валидация всех полей
     final name = _nameController.text.trim();
     final surname = _surnameController.text.trim();
@@ -144,14 +152,33 @@ class _RegistrationPageState extends State<RegistrationPage> {
     }
   }
 
-  // // Обновленная навигация после регистрации
-  // void _onRegisterSuccess() {
-  //   context.go(RouteConstants.home); // Переход на главную страницу
-  // }
-
   // Обновленная навигация на страницу входа
   void _onLoginTap() {
     context.go(RouteConstants.login);
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              Icon(Icons.error_outline, color: Colors.red),
+              SizedBox(width: 10),
+              Text('Ошибка регистрации'),
+            ],
+          ),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Понятно'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -163,12 +190,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
             context.go(RouteConstants.home);
           }
           if (state is AuthError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+            setState(() {
+              _serverErrorMessage = state.message;
+            });
+            _showErrorDialog(state.message);
           }
         },
         builder: (context, state) {
@@ -198,6 +223,33 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ),
                   ),
                   SizedBox(height: 16.h),
+
+                  // Общее сообщение об ошибке от сервера
+                  if (_serverErrorMessage != null) ...[
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.red.shade50,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.red.shade200),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.error_outline,
+                              color: Colors.red, size: 20),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              _serverErrorMessage!,
+                              style: TextStyle(color: Colors.red.shade700),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                  ],
+
                   _buildInputField(
                     label: 'Имя',
                     controller: _nameController,

@@ -14,35 +14,21 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<AuthResult> registerUser(UserRegister userRegister) async {
     try {
-      final success = await remoteDataSource.registerUser(userRegister);
-      if (success) {
-        await localDataSource.setIsLoggedIn(true);
-        await localDataSource.saveCredentials(
-            userRegister.login, userRegister.password);
+      // Получаем данные пользователя с сервера после регистрации
+      final userData = await remoteDataSource.registerUser(userRegister);
 
-        // Создаем базовые данные пользователя из информации при регистрации
-        final userData = UserData(
-          id: 0, // Временный ID, будет обновлен при следующем входе
-          login: userRegister.login,
-          phoneNumber: userRegister.phoneNumber,
-          name: userRegister.name,
-          surname: userRegister.surname,
-          patronymic: userRegister.patronymic,
-          role: UserRole(
-              id: 1, name: "CLIENT"), // Предполагаем роль клиента по умолчанию
-          accepted: false, // Предполагаем, что аккаунт требует подтверждения
-        );
+      // Сохраняем данные авторизации и пользователя
+      await localDataSource.setIsLoggedIn(true);
+      await localDataSource.saveCredentials(
+          userRegister.login, userRegister.password);
+      await localDataSource.saveUserData(userData);
 
-        // Сохраняем данные пользователя
-        await localDataSource.saveUserData(userData);
-
-        return AuthResult(success: true, userData: userData);
-      }
-      return AuthResult(success: false, error: 'Не удалось зарегистрироваться');
+      return AuthResult(success: true, userData: userData);
     } on ServerException catch (e) {
       return AuthResult(success: false, error: e.message);
     } catch (e) {
-      return AuthResult(success: false, error: 'Произошла неизвестная ошибка');
+      return AuthResult(
+          success: false, error: 'Произошла неизвестная ошибка: $e');
     }
   }
 
@@ -64,6 +50,27 @@ class AuthRepositoryImpl implements AuthRepository {
     } catch (e) {
       return AuthResult(
           success: false, error: 'Произошла неизвестная ошибка: $e');
+    }
+  }
+
+  @override
+  Future<bool> deleteUser(int userId) async {
+    try {
+      // Вызываем удаление пользователя (теперь ApiService сам получит учетные данные)
+      final success = await remoteDataSource.deleteUser(userId);
+
+      if (success) {
+        // Если удаление успешно, очищаем все локальные данные
+        await clearAllData();
+        return true;
+      }
+      return false;
+    } on ServerException catch (e) {
+      print('Ошибка при удалении пользователя: ${e.message}');
+      return false;
+    } catch (e) {
+      print('Неизвестная ошибка при удалении пользователя: $e');
+      return false;
     }
   }
 

@@ -41,6 +41,22 @@ class ApiService {
     }
   }
 
+  // Специальный метод для получения опций с фиксированными учетными данными
+  Options _getFixedAuthOptions() {
+    // Всегда используем "string" и "string" для авторизации
+    final basicAuth = 'Basic ${base64Encode(utf8.encode('string:string'))}';
+
+    developer
+        .log('API: Используем фиксированные учетные данные для авторизации');
+
+    return Options(
+      headers: {
+        'Authorization': basicAuth,
+        'Content-Type': 'application/json',
+      },
+    );
+  }
+
   Future<Response> get(String path) async {
     try {
       final options = await _getOptions();
@@ -90,8 +106,17 @@ class ApiService {
 
   Future<Response> delete(String path) async {
     try {
-      final options = await _getOptions();
-      return await dio.delete('$baseUrl$path', options: options);
+      // Используем фиксированные учетные данные для delete запросов
+      final options = _getFixedAuthOptions();
+      final url = '$baseUrl$path';
+
+      developer.log('API DELETE: $url');
+
+      final response = await dio.delete(url, options: options);
+
+      developer.log('API Ответ: ${response.statusCode}');
+
+      return response;
     } catch (e) {
       developer.log('API DELETE Ошибка: $path', error: e);
       rethrow;

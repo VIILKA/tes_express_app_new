@@ -17,6 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
+  String? _errorMessage;
 
   @override
   void dispose() {
@@ -28,6 +29,11 @@ class _LoginPageState extends State<LoginPage> {
   void _onLoginPressed() {
     final login = _loginController.text.trim();
     final password = _passwordController.text.trim();
+
+    // Очищаем предыдущую ошибку при новой попытке входа
+    setState(() {
+      _errorMessage = null;
+    });
 
     // Проверка на админский доступ
     if (login == 'admin' && password == 'admin') {
@@ -41,6 +47,30 @@ class _LoginPageState extends State<LoginPage> {
     context.go(RouteConstants.register);
   }
 
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              Icon(Icons.error_outline, color: Colors.red),
+              SizedBox(width: 10),
+              Text('Ошибка авторизации'),
+            ],
+          ),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Понятно'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,12 +80,9 @@ class _LoginPageState extends State<LoginPage> {
             context.go(RouteConstants.home);
           }
           if (state is AuthError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+            setState(() {
+              _errorMessage = state.message;
+            });
           }
         },
         builder: (context, state) {
@@ -98,6 +125,30 @@ class _LoginPageState extends State<LoginPage> {
                         controller: _passwordController,
                         obscureText: true,
                       ),
+                      if (_errorMessage != null) ...[
+                        SizedBox(height: 10.h),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.red.shade50,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.red.shade200),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.error_outline,
+                                  color: Colors.red, size: 20),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: Text(
+                                  _errorMessage!,
+                                  style: TextStyle(color: Colors.red.shade700),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                       SizedBox(height: 23.h),
                       _buildLoginButton(),
                       SizedBox(height: 12.h),

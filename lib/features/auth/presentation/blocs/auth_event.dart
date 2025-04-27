@@ -58,3 +58,9 @@ class LoginAsGuest extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+
+// Удаление аккаунта пользователя
+class DeleteAccount extends AuthEvent {
+  @override
+  List<Object?> get props => [];
+}

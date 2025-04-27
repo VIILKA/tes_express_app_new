@@ -19,6 +19,43 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  // Метод для показа диалога удаления аккаунта
+  void _showDeleteAccountDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.red),
+              SizedBox(width: 10),
+              Text('Удаление аккаунта'),
+            ],
+          ),
+          content: Text(
+            'Вы уверены, что хотите удалить свой аккаунт? Это действие нельзя отменить. Все ваши данные будут безвозвратно удалены.',
+            style: AppTheme.bodySmall,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Отмена'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                // Вызываем событие удаления аккаунта
+                context.read<AuthBloc>().add(DeleteAccount());
+              },
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: Text('Удалить аккаунт'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,7 +196,7 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             BlocListener<AuthBloc, AuthState>(
               listener: (context, state) {
@@ -168,15 +205,65 @@ class _ProfilePageState extends State<ProfilePage> {
                   // перенаправляем пользователя на /login
                   context.go('/login');
                 }
+                if (state is AuthSuccess) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                }
+                if (state is AuthError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
               },
-              child: Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    // При нажатии вызываем событие Logout
-                    context.read<AuthBloc>().add(Logout());
-                  },
-                  child: const Text('Выйти из аккаунта'),
-                ),
+              child: Column(
+                children: [
+                  // Кнопка выхода
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context.read<AuthBloc>().add(Logout());
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.main,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: const Text('Выйти из аккаунта'),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  // Кнопка удаления аккаунта
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: TextButton(
+                      onPressed: _showDeleteAccountDialog,
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.red,
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.delete_forever, color: Colors.red),
+                          SizedBox(width: 8),
+                          Text('Удалить аккаунт'),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                ],
               ),
             ),
           ],
