@@ -2,6 +2,7 @@ import 'dart:developer' as developer;
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:tes_express_app_new/core/api/api_service.dart';
 import 'package:tes_express_app_new/features/market/domain/entities/car.dart';
 import 'package:tes_express_app_new/features/market/domain/repositories/car_repository.dart';
 
@@ -60,7 +61,7 @@ class CarError extends CarState {
   List<Object?> get props => [message];
 }
 
-/// Состояние ошибки неподтвержденного аккаунта
+/// Состояние ошибки авторизации
 class CarUnauthorizedError extends CarState {
   final String message;
 
@@ -96,16 +97,26 @@ class CarBloc extends Bloc<CarEvent, CarState> {
       } else {
         emit(CarLoaded(_allCars));
       }
-    } catch (e) {
-      developer.log('CarBloc: Ошибка загрузки', error: e);
+    } on ApiException catch (e) {
+      developer.log('CarBloc: Ошибка API при загрузке автомобилей', error: e);
 
-      // Проверяем, является ли ошибка ошибкой неавторизованного доступа (401)
+      // Обрабатываем ошибки API
+      if (e.statusCode == 401) {
+        emit(CarUnauthorizedError(
+            'Ваш аккаунт еще не подтвержден модератором. Пока вы можете продолжить как гость для просмотра доступных автомобилей.'));
+      } else {
+        emit(CarError('Не удалось загрузить список автомобилей: ${e.message}'));
+      }
+    } catch (e) {
+      developer.log('CarBloc: Неизвестная ошибка при загрузке', error: e);
+
+      // Проверяем, является ли ошибка ошибкой Dio с кодом 401
       if (e is DioException && e.response?.statusCode == 401) {
         emit(CarUnauthorizedError(
-            'Ваш аккаунт ещё не подтвержден модераторами. Пожалуйста, дождитесь подтверждения и попробуйте позже.'));
+            'Ваш аккаунт еще не подтвержден модератором. Пока вы можете продолжить как гость для просмотра доступных автомобилей.'));
       } else {
         emit(CarError(
-            'Не удалось загрузить список автомобилей: ${e.toString()}'));
+            'Не удалось загрузить список автомобилей. Пожалуйста, проверьте подключение к интернету и попробуйте снова.'));
       }
     }
   }

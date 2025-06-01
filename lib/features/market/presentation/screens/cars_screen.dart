@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tes_express_app_new/core/routes/route_constants.dart';
 import 'package:tes_express_app_new/core/styles/app_theme.dart';
+import 'package:tes_express_app_new/features/auth/presentation/blocs/auth_bloc.dart';
 import 'package:tes_express_app_new/features/market/presentation/bloc/car_bloc.dart';
 import 'package:tes_express_app_new/features/market/presentation/screens/components/car_card.dart';
 import 'package:tes_express_app_new/features/market/presentation/screens/components/filter_chips.dart';
@@ -83,13 +84,13 @@ class _CarsScreenState extends State<CarsScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.access_time_rounded,
+                        Icons.lock_outline,
                         size: 64.sp,
                         color: AppTheme.main,
                       ),
                       SizedBox(height: 16.h),
                       Text(
-                        'Ожидается подтверждение',
+                        'Требуется авторизация',
                         style: AppTheme.displayMedium,
                         textAlign: TextAlign.center,
                       ),
@@ -106,7 +107,7 @@ class _CarsScreenState extends State<CarsScreen> {
                         height: 54.h,
                         child: ElevatedButton(
                           onPressed: () {
-                            context.read<CarBloc>().add(GetCarsEvent());
+                            context.go(RouteConstants.login);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.main,
@@ -116,10 +117,22 @@ class _CarsScreenState extends State<CarsScreen> {
                             ),
                           ),
                           child: Text(
-                            'Обновить',
+                            'Войти',
                             style: AppTheme.bodyMedium.copyWith(
                               color: Colors.white,
                             ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+                      TextButton(
+                        onPressed: () {
+                          context.read<AuthBloc>().add(ContinueAsGuest());
+                        },
+                        child: Text(
+                          'Продолжить как гость',
+                          style: AppTheme.bodySmall.copyWith(
+                            color: AppTheme.greyText,
                           ),
                         ),
                       ),

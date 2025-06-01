@@ -4,6 +4,7 @@ import 'package:tes_express_app_new/features/auth/domain/entities/user_data.dart
 import 'package:tes_express_app_new/features/auth/domain/entities/user_login.dart';
 import 'package:tes_express_app_new/features/auth/domain/entities/user_register.dart';
 import 'package:tes_express_app_new/features/auth/domain/repositories/auth_repository.dart';
+import 'dart:developer' as developer;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthLocalDataSource localDataSource;
@@ -24,9 +25,11 @@ class AuthRepositoryImpl implements AuthRepository {
       await localDataSource.saveUserData(userData);
 
       return AuthResult(success: true, userData: userData);
-    } on ServerException catch (e) {
+    } on AuthException catch (e) {
+      developer.log('Ошибка регистрации: ${e.message}');
       return AuthResult(success: false, error: e.message);
     } catch (e) {
+      developer.log('Неизвестная ошибка регистрации', error: e);
       return AuthResult(
           success: false, error: 'Произошла неизвестная ошибка: $e');
     }
@@ -45,9 +48,11 @@ class AuthRepositoryImpl implements AuthRepository {
       await localDataSource.saveUserData(userData);
 
       return AuthResult(success: true, userData: userData);
-    } on ServerException catch (e) {
+    } on AuthException catch (e) {
+      developer.log('Ошибка входа: ${e.message}');
       return AuthResult(success: false, error: e.message);
     } catch (e) {
+      developer.log('Неизвестная ошибка входа', error: e);
       return AuthResult(
           success: false, error: 'Произошла неизвестная ошибка: $e');
     }
@@ -56,7 +61,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<bool> deleteUser(int userId) async {
     try {
-      // Вызываем удаление пользователя (теперь ApiService сам получит учетные данные)
+      // Вызываем удаление пользователя
       final success = await remoteDataSource.deleteUser(userId);
 
       if (success) {
@@ -65,11 +70,11 @@ class AuthRepositoryImpl implements AuthRepository {
         return true;
       }
       return false;
-    } on ServerException catch (e) {
-      print('Ошибка при удалении пользователя: ${e.message}');
+    } on AuthException catch (e) {
+      developer.log('Ошибка при удалении пользователя: ${e.message}');
       return false;
     } catch (e) {
-      print('Неизвестная ошибка при удалении пользователя: $e');
+      developer.log('Неизвестная ошибка при удалении пользователя', error: e);
       return false;
     }
   }

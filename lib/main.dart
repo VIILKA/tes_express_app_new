@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:dio/dio.dart';
 
@@ -30,18 +29,16 @@ Future<void> main() async {
   // Инициализация всех зависимостей
   final storage = FlutterSecureStorage();
   final authLocalDataSource = AuthLocalDataSource(storage);
-  final httpClient = http.Client();
 
-  // Инициализация ApiService
+  // Инициализация ApiService с Dio
   final dio = Dio();
   final apiService = ApiService(
     dio: dio,
     authLocalDataSource: authLocalDataSource,
   );
 
+  // Инициализация AuthRemoteDataSource с использованием ApiService
   final authRemoteDataSource = AuthRemoteDataSourceImpl(
-    baseUrl: 'http://5.59.233.108:8081',
-    client: httpClient,
     apiService: apiService,
   );
 

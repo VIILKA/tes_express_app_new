@@ -79,6 +79,19 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return null;
   }
 
+  // Отдельный метод для валидации отчества (необязательное поле)
+  String? _validatePatronymic(String value) {
+    // Если поле пустое, возвращаем null (поле необязательно)
+    if (value.isEmpty) {
+      return null;
+    }
+    // Проверяем формат, если поле заполнено
+    if (!_nameRegExp.hasMatch(value)) {
+      return 'Используйте только буквы';
+    }
+    return null;
+  }
+
   // Валидация номера телефона
   String? _validatePhone(String value) {
     if (value.isEmpty) {
@@ -126,15 +139,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     final login = _loginController.text.trim();
     final password = _passwordController.text.trim();
 
-    // Обновляем состояние ошибок
-    setState(() {
-      _errors['name'] = _validateName(name, 'имя');
-      _errors['surname'] = _validateName(surname, 'фамилия');
-      _errors['patronymic'] = _validateName(patronymic, 'отчество');
-      _errors['phoneNumber'] = _validatePhone(phoneNumber);
-      _errors['login'] = _validateLogin(login);
-      _errors['password'] = _validatePassword(password);
-    });
+    // Обновляем состояние ошибок    setState(() {      _errors['name'] = _validateName(name, 'имя');      _errors['surname'] = _validateName(surname, 'фамилия');      _errors['patronymic'] = _validatePatronymic(patronymic);      _errors['phoneNumber'] = _validatePhone(phoneNumber);      _errors['login'] = _validateLogin(login);      _errors['password'] = _validatePassword(password);    });
 
     // Проверяем наличие ошибок
     if (_errors.values.every((error) => error == null)) {
@@ -267,7 +272,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ),
                   SizedBox(height: 15.h),
                   _buildInputField(
-                    label: 'Отчество',
+                    label: 'Отчество (необязательно)',
                     controller: _patronymicController,
                     fieldKey: 'patronymic',
                     focusNode: _patronymicFocus,
@@ -376,8 +381,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   switch (fieldKey) {
                     case 'name':
                     case 'surname':
-                    case 'patronymic':
                       _errors[fieldKey] = _validateName(value.trim(), label);
+                      break;
+                    case 'patronymic':
+                      _errors[fieldKey] = _validatePatronymic(value.trim());
                       break;
                     case 'phoneNumber':
                       _errors[fieldKey] = _validatePhone(value.trim());

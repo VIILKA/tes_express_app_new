@@ -44,6 +44,9 @@ class _ProfilePageState extends State<ProfilePage> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
+                // Показываем индикатор загрузки
+                _showLoadingDialog('Удаление аккаунта...');
+
                 // Вызываем событие удаления аккаунта
                 context.read<AuthBloc>().add(DeleteAccount());
               },
@@ -51,6 +54,25 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Text('Удалить аккаунт'),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  // Показывает диалог загрузки
+  void _showLoadingDialog(String message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Row(
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(width: 20),
+              Text(message),
+            ],
+          ),
         );
       },
     );

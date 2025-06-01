@@ -27,7 +27,8 @@ class UserData {
       phoneNumber: json['phoneNumber'] as String,
       name: json['name'] as String,
       surname: json['surname'] as String,
-      patronymic: json['patronomic'] as String?, // Учтем опечатку в API
+      patronymic: json['patronomic']
+          as String?, // Учтем опечатку в API (patronomic вместо patronymic)
       role: UserRole.fromJson(json['role'] as Map<String, dynamic>),
       accepted: json['accepted'] as bool,
     );
@@ -50,17 +51,18 @@ class UserData {
 
 class UserRole {
   final int id;
-  final String name;
+  final String?
+      name; // Изменено на nullable, так как в API name может быть null
 
   UserRole({
     required this.id,
-    required this.name,
+    this.name,
   });
 
   factory UserRole.fromJson(Map<String, dynamic> json) {
     return UserRole(
       id: json['id'] as int,
-      name: json['name'] as String,
+      name: json['name'] as String?, // Обрабатываем null значение
     );
   }
 

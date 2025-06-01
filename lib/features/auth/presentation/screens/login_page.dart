@@ -18,6 +18,8 @@ class _LoginPageState extends State<LoginPage> {
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
   String? _errorMessage;
+  bool _hasLoginError = false;
+  bool _hasPasswordError = false;
 
   @override
   void dispose() {
@@ -33,7 +35,30 @@ class _LoginPageState extends State<LoginPage> {
     // Очищаем предыдущую ошибку при новой попытке входа
     setState(() {
       _errorMessage = null;
+      _hasLoginError = false;
+      _hasPasswordError = false;
     });
+
+    // Валидация полей
+    if (login.isEmpty) {
+      setState(() {
+        _hasLoginError = true;
+      });
+    }
+
+    if (password.isEmpty) {
+      setState(() {
+        _hasPasswordError = true;
+      });
+    }
+
+    // Если есть ошибки валидации, показываем сообщение и прерываем отправку
+    if (_hasLoginError || _hasPasswordError) {
+      setState(() {
+        _errorMessage = 'Пожалуйста, заполните все поля';
+      });
+      return;
+    }
 
     // Проверка на админский доступ
     if (login == 'admin' && password == 'admin') {
@@ -83,6 +108,17 @@ class _LoginPageState extends State<LoginPage> {
             setState(() {
               _errorMessage = state.message;
             });
+
+            // Показываем диалог с ошибкой для более наглядного отображения
+            String errorMessage = state.message;
+
+            // Если ошибка 404, показываем более понятное сообщение
+            if (errorMessage.contains('404')) {
+              errorMessage =
+                  'Сервер не отвечает или адрес сервиса входа недоступен. Пожалуйста, попробуйте позже.';
+            }
+
+            _showErrorDialog(errorMessage);
           }
         },
         builder: (context, state) {
@@ -153,6 +189,22 @@ class _LoginPageState extends State<LoginPage> {
                       _buildLoginButton(),
                       SizedBox(height: 12.h),
                       _buildRegisterLink(),
+                      SizedBox(height: 12.h),
+                      // Кнопка "Продолжить как гость"
+                      SizedBox(
+                        width: double.infinity,
+                        child: TextButton(
+                          onPressed: () {
+                            context.read<AuthBloc>().add(ContinueAsGuest());
+                          },
+                          child: Text(
+                            'Продолжить как гость',
+                            style: AppTheme.bodySmall.copyWith(
+                              color: AppTheme.greyText,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -182,13 +234,21 @@ class _LoginPageState extends State<LoginPage> {
     required TextEditingController controller,
     bool obscureText = false,
   }) {
+    // Определяем, есть ли ошибка для данного поля
+    bool hasError = false;
+    if (controller == _loginController && _hasLoginError) {
+      hasError = true;
+    } else if (controller == _passwordController && _hasPasswordError) {
+      hasError = true;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
           style: AppTheme.bodyLarge.copyWith(
-            color: AppTheme.black,
+            color: hasError ? Colors.red : AppTheme.black,
           ),
         ),
         SizedBox(height: 6.h),
@@ -198,7 +258,7 @@ class _LoginPageState extends State<LoginPage> {
             color: AppTheme.whiteGrey,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: AppTheme.greyText,
+              color: hasError ? Colors.red : AppTheme.greyText,
               width: 1,
             ),
             boxShadow: [
@@ -226,6 +286,23 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 isDense: true,
               ),
+              onChanged: (_) {
+                // Сбрасываем ошибку при вводе текста
+                if (hasError) {
+                  setState(() {
+                    if (controller == _loginController) {
+                      _hasLoginError = false;
+                    } else if (controller == _passwordController) {
+                      _hasPasswordError = false;
+                    }
+
+                    // Если все поля заполнены, убираем общее сообщение об ошибке
+                    if (!_hasLoginError && !_hasPasswordError) {
+                      _errorMessage = null;
+                    }
+                  });
+                }
+              },
             ),
           ),
         ),

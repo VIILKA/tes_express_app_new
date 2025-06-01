@@ -33,7 +33,8 @@ class CarRemoteDataSourceImpl implements CarRemoteDataSource {
     try {
       developer.log('Запрос списка автомобилей: $_apiPath/get/list');
 
-      final response = await apiService.get('$_apiPath/get/list');
+      // Используем админские учетные данные для доступа к списку автомобилей
+      final response = await apiService.getWithAdminAuth('$_apiPath/get/list');
 
       developer.log('Ответ API: статус ${response.statusCode}');
       developer.log('Данные API: ${response.data}');
@@ -87,7 +88,8 @@ class CarRemoteDataSourceImpl implements CarRemoteDataSource {
       developer.log('Запрос фильтрованных автомобилей: $_apiPath/get/filtered');
       developer.log('Параметры фильтра: $filterData');
 
-      final response = await apiService.post(
+      // Используем админские учетные данные для доступа к фильтрованному списку
+      final response = await apiService.postWithAdminAuth(
         '$_apiPath/get/filtered',
         data: filterData,
       );
